@@ -1,0 +1,11 @@
+.mat-icon-absolute {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 10px;
+}
+
+.example-button-container {
+  display: flex;
+  justify-content: center;
+}

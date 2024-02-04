@@ -1,0 +1,31 @@
+<header>
+  <mat-toolbar>
+    <button mat-icon-button class="example-icon">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span>Musical Couscous</span>
+
+    <nav mat-tab-nav-bar>
+      <a
+        mat-tab-link
+        routerLink="/recipes"
+        #rl1="routerLinkActive"
+        routerLinkActive
+        [active]="rl1.isActive"
+      >
+        Recipes
+      </a>
+      <!-- <a mat-tab-link routerLink="/test" #rl2=routerLinkActive routerLinkActive [active]="rl2.isActive"> Test 1 </a> -->
+    </nav>
+
+    <span class="example-spacer"></span>
+    <button mat-raised-button routerLink="/login">Login</button>
+
+    <button mat-icon-button class="example-icon favorite-icon">
+      <mat-icon>favorite</mat-icon>
+    </button>
+    <button mat-icon-button class="example-icon">
+      <mat-icon>share</mat-icon>
+    </button>
+  </mat-toolbar>
+</header>

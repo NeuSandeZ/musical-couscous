@@ -1,0 +1,26 @@
+<div class="col">
+  <a [routerLink]="[index]" class="list-group-item clearfix">
+    <div class="card" style="width: 18rem">
+      <div>
+        <div class="mat-icon-absolute">
+          <div class="example-button-container">
+            <button mat-fab color="warn">
+              <mat-icon>favorite</mat-icon>
+            </button>
+          </div>
+        </div>
+        <img
+          [src]="recipe.imgUrl"
+          class="card-img-top img"
+          alt="..."
+        />
+      </div>
+      <div class="card-body">
+        <h5 class="card-title"> {{ recipe.title }} </h5>
+        <p class="card-text">
+          {{ recipe.description }}
+        </p>
+      </div>
+    </div>
+  </a>
+</div>

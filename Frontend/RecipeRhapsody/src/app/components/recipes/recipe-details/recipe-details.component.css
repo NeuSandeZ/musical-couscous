@@ -1,0 +1,54 @@
+.example-action-buttons {
+  padding-bottom: 20px;
+}
+
+.example-headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+  font-size: large;
+}
+
+.example-headers-align .mat-mdc-form-field + .mat-mdc-form-field {
+  margin-left: 8px;
+}
+
+.recipe-box {
+  background-color: #fff3e0;
+  border: 1px solid #d9d9d9;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.recipe-header {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.recipe-time {
+  display: flex;
+  justify-content: space-between;
+}
+
+.recipe-time div {
+  margin-bottom: 10px;
+}
+
+.jump-link {
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #f8e1c2;
+  border-radius: 8px;
+  color: #333;
+  text-decoration: none;
+}
+
+.jump-link:hover {
+  background-color: #f0d9b5;
+}
+
+.mat-panel-title-custom-style {
+  font-weight: 600;
+  font-size: 25px;
+}

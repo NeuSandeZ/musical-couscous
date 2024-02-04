@@ -1,0 +1,67 @@
+<div>
+  <h1>{{ recipe.title }}</h1>
+  <div class="card">
+    <img class="card-img-top" [src]="recipe.imgUrl" alt="Card image cap" />
+    <div class="card-body">
+      <p class="card-text">
+        {{ recipe.description }}
+      </p>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">Submited by: {{ recipe.createdBy }} | updated on: {{ recipe.updatedOn }} </li>
+      <li class="list-group-item">Tested by:</li>
+    </ul>
+    <div class="card-body">
+      <button mat-raised-button color="warn">
+        Save <span><mat-icon>favorite</mat-icon></span>
+      </button>
+      <a class="card-link">Another link</a>
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <mat-accordion class="example-headers-align" multi>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title class="mat-panel-title-custom-style">
+            Ingredients
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <ul>
+          @for (item of recipe.ingredients; track $index) {
+          <li>{{ item.ingredient }}</li>
+          <hr />
+          }
+        </ul>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+
+  <div class="recipe-box mt-4">
+    <div class="row g-3">
+      @for (item of recipe.prepTime; track $index) {
+      <div class="col-sm-4">
+        <span class="recipe-header">{{ item.name }}:</span>
+        {{ item.amount }} mins
+      </div>
+      }
+    </div>
+    <hr />
+    <a href="#nutrition-facts" class="jump-link">Jump to Nutrition Facts</a>
+  </div>
+
+  <div class="card mt-4">
+    <div class="card-body">
+      <h1 class="card-header">Directions</h1>
+      <div class="col m-2">
+        @for (item of recipe.steps; track $index) {
+        <div class="card-body">
+          <h3 class="card-title">Step {{ $index }}</h3>
+          <p class="card-text">{{ item.directionStep }}</p>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>
