@@ -1,6 +1,6 @@
-<div class="row row-cols-1 row-cols-sm-4 g-sm-5">
+<div class="row row-cols-1 row-cols-sm-4">
   @for (recipes of recipes; track $index) {
-  <div class="col mb-3 mb-sm-3">
+  <div class="col mb-sm-4">
     <app-recipe-item [index]="$index"></app-recipe-item>
   </div>
   }

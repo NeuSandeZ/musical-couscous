@@ -1,0 +1,30 @@
+.root-container {
+  width: 60%;
+  border: solid 2px black;
+}
+
+.tdp-containter {
+  display: grid;
+  grid-template-columns: 55% 45%;
+}
+
+.grid {
+  display: grid;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+.form-margin {
+  margin-left: 35px;
+  margin-right: 35px;
+}
+
+.input-none {
+  display: none;
+}
+
+.container-with-delete {
+  display: flex;
+}

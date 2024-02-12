@@ -8,15 +8,13 @@ import { RecipeService } from '../../../Services/recipe.service';
   standalone: true,
   imports: [RecipeItemComponent],
   templateUrl: './recipe-list.component.html',
-  styleUrl: './recipe-list.component.css'
+  styleUrl: './recipe-list.component.css',
 })
 export class RecipeListComponent implements OnInit {
-
   recipes!: Recipe[];
 
-  constructor(private readonly _recipesService: RecipeService) { }
+  constructor(private readonly _recipesService: RecipeService) {}
   ngOnInit(): void {
     this.recipes = this._recipesService.getRecipes();
   }
-
 }

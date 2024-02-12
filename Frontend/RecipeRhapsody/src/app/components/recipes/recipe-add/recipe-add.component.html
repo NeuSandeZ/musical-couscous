@@ -1,0 +1,73 @@
+<div class="mx-auto p2 root-container" style="background-color: pink">
+  <form [formGroup]="recipeForm" class="form-margin" (ngSubmit)="onSubmit()">
+    <div>
+      <p>some paragraph here</p>
+    </div>
+    <hr />
+    <div class="tdp-containter">
+      <div style="display: grid">
+        <div class="input-container">
+          <mat-form-field class="example-full-width">
+            <mat-label>Recipe title</mat-label>
+            <input
+              matInput
+              placeholder="Give your recipe a title"
+              formControlName="recipeTitle"
+            />
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field class="example-full-width">
+            <mat-label>Description</mat-label>
+            <textarea
+              matInput
+              placeholder="Share the story behind your recipe!"
+              formControlName="recipeDescription"
+            ></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+      <div>
+        <input
+          type="file"
+          (change)="onFileSelected($event)"
+          style="display: none"
+          formControlName="imageFile"
+          #fileInput
+        />
+        <button type="button" (click)="fileInput.click()">
+          <img
+            class="img-fluid"
+            [src]="selectedFileUrl ? selectedFileUrl : defaultImageSource"
+            alt="Selected Image"
+          />
+        </button>
+      </div>
+    </div>
+    <hr />
+    <h5>Ingredietns</h5>
+    <p>Ingredients desc here</p>
+
+    <div formArrayName="recipeIngredients">
+      @for (item of controls; track $index) {
+      <div class="container-with-delete">
+        <mat-form-field class="example-full-width">
+          <mat-label>Recipe title</mat-label>
+          <input
+            matInput
+            placeholder="ingredient: {{ $index }}"
+            formControlName="recipeIngredient"
+          />
+        </mat-form-field>
+        <button type="button">X</button>
+      </div>
+      }
+      <button type="button" (click)="onAddIngredient()">Add Ingredient</button>
+    </div>
+    <hr />
+    <div>
+      <p>directions here</p>
+    </div>
+    <button type="submit">Submit</button>
+  </form>
+</div>

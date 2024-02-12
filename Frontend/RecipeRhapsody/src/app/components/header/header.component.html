@@ -1,25 +1,36 @@
 <header>
-  <mat-toolbar>
-    <button mat-icon-button class="example-icon">
+  <mat-toolbar class="fixed-header">
+    <button mat-icon-button>
       <mat-icon>menu</mat-icon>
     </button>
     <span>Musical Couscous</span>
 
     <nav mat-tab-nav-bar>
-      <a
-        mat-tab-link
-        routerLink="/recipes"
-        #rl1="routerLinkActive"
-        routerLinkActive
-        [active]="rl1.isActive"
-      >
-        Recipes
-      </a>
-      <!-- <a mat-tab-link routerLink="/test" #rl2=routerLinkActive routerLinkActive [active]="rl2.isActive"> Test 1 </a> -->
+      <a mat-tab-link routerLink="/recipes"> Recipes </a>
     </nav>
 
     <span class="example-spacer"></span>
-    <button mat-raised-button routerLink="/login">Login</button>
+    @if (!isAuthenticated) {
+    <button mat-raised-button (click)="onLogInOut()">Login</button>
+    } @else {
+    <div>
+      <button mat-button [matMenuTriggerFor]="menu">
+        <span> <mat-icon> account_circle </mat-icon></span> My Account
+        <span><mat-icon>keyboard_arrow_down</mat-icon></span>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="onLogInOut()">
+          <mat-icon>exit_to_app</mat-icon>Logout
+        </button>
+        <button mat-menu-item (click)="navigateToProfile()">My profile</button>
+        <button mat-menu-item>Saved Items & Collections</button>
+        <hr class="margin-hr-menu" />
+        <button mat-menu-item (click)="navigateToAddRecipe()">
+          <mat-icon>add_circle</mat-icon>Add a Recipe
+        </button>
+      </mat-menu>
+    </div>
+    }
 
     <button mat-icon-button class="example-icon favorite-icon">
       <mat-icon>favorite</mat-icon>

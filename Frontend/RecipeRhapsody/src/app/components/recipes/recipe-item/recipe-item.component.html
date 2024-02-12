@@ -1,6 +1,6 @@
 <div class="col">
   <a [routerLink]="[index]" class="list-group-item clearfix">
-    <div class="card" style="width: 18rem">
+    <div class="card">
       <div>
         <div class="mat-icon-absolute">
           <div class="example-button-container">
@@ -9,14 +9,10 @@
             </button>
           </div>
         </div>
-        <img
-          [src]="recipe.imgUrl"
-          class="card-img-top img"
-          alt="..."
-        />
+        <img [src]="recipe.imgUrl" class="card-img-top" alt="..." />
       </div>
       <div class="card-body">
-        <h5 class="card-title"> {{ recipe.title }} </h5>
+        <h5 class="card-title">{{ recipe.title }}</h5>
         <p class="card-text">
           {{ recipe.description }}
         </p>
