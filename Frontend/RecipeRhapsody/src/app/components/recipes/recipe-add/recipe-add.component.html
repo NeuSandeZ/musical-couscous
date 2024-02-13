@@ -1,16 +1,17 @@
-<div class="mx-auto p2 root-container" style="background-color: pink">
+<div class="mx-auto p2 root-container">
   <form [formGroup]="recipeForm" class="form-margin" (ngSubmit)="onSubmit()">
     <div>
       <p>some paragraph here</p>
     </div>
     <hr />
     <div class="tdp-containter">
-      <div style="display: grid">
+      <div>
         <div class="input-container">
           <mat-form-field class="example-full-width">
             <mat-label>Recipe title</mat-label>
             <input
               matInput
+              type="text"
               placeholder="Give your recipe a title"
               formControlName="recipeTitle"
             />
@@ -21,6 +22,7 @@
             <mat-label>Description</mat-label>
             <textarea
               matInput
+              type="text"
               placeholder="Share the story behind your recipe!"
               formControlName="recipeDescription"
             ></textarea>
@@ -31,7 +33,7 @@
         <input
           type="file"
           (change)="onFileSelected($event)"
-          style="display: none"
+          class="file-input"
           formControlName="imageFile"
           #fileInput
         />
@@ -46,28 +48,145 @@
     </div>
     <hr />
     <h5>Ingredietns</h5>
-    <p>Ingredients desc here</p>
-
+    <p>
+      Enter one ingredient per line. Include the quantity (i.e. cups,
+      tablespoons) and any special preparation (i.e. sifted, softened, chopped).
+      Use optional headers to organize the different parts of the recipe (i.e.
+      Cake, Frosting, Dressing).
+    </p>
+    @for (item of ingredientControls; track $index) {
     <div formArrayName="recipeIngredients">
-      @for (item of controls; track $index) {
       <div class="container-with-delete">
         <mat-form-field class="example-full-width">
-          <mat-label>Recipe title</mat-label>
+          <mat-label>Ingredient</mat-label>
           <input
             matInput
-            placeholder="ingredient: {{ $index }}"
-            formControlName="recipeIngredient"
+            type="text"
+            [placeholder]="item.value"
+            [formControlName]="$index"
           />
         </mat-form-field>
-        <button type="button">X</button>
+        <button type="button" (click)="onDelete($index, 'recipeIngredients')">
+          <mat-icon>delete</mat-icon>
+        </button>
       </div>
-      }
-      <button type="button" (click)="onAddIngredient()">Add Ingredient</button>
+    </div>
+    }
+    <button type="button" (click)="onAdd('recipeIngredients', 'ingredient')">
+      Add Ingredient
+    </button>
+    <hr />
+    <h5>Directions</h5>
+    <p>
+      Explain how to make your recipe, including oven temperatures, baking or
+      cooking times, and pan sizes, etc. Use optional headers to organize the
+      different parts of the recipe (i.e. Prep, Bake, Decorate).
+    </p>
+    @for (item of stepControls; track $index) {
+    <div formArrayName="recipeSteps">
+      <div class="container-with-delete">
+        <mat-form-field class="example-full-width">
+          <mat-label>Step {{ $index + 1 }}</mat-label>
+          <textarea
+            matInput
+            type="text"
+            [placeholder]="item.value"
+            [formControlName]="$index"
+          ></textarea>
+        </mat-form-field>
+        <button type="button" (click)="onDelete($index, 'recipeSteps')">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+    }
+    <button type="button" (click)="onAdd('recipeSteps', 'step')">
+      Add Step
+    </button>
+    <hr />
+    <div class="container-with-delete">
+      <mat-form-field class="example-full-width">
+        <mat-label>Servings</mat-label>
+        <input
+          matInput
+          type="number"
+          placeholder="e.g. 8"
+          formControlName="recipeServings"
+        />
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-label>Yield (Optional)</mat-label>
+        <input
+          matInput
+          type="text"
+          placeholder="e.g. 1 9-inch cake"
+          formControlName="recipeServingsYield"
+        />
+      </mat-form-field>
     </div>
     <hr />
-    <div>
-      <p>directions here</p>
+    <div class="container-with-delete">
+      <div formArrayName="recipePrepTime">
+        @for (item of prepTime; track $index) {
+        <div [formGroupName]="$index">
+          @if ($index < 2) {
+          <div class="container-with-delete">
+            <p>{{ item.get("title")?.value }}</p>
+            <mat-form-field>
+              <input
+                matInput
+                type="number"
+                placeholder="0"
+                formControlName="time"
+              />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Select</mat-label>
+              <mat-select formControlName="unit">
+                <mat-option value="mins">mins</mat-option>
+                <mat-option value="hours">hours</mat-option>
+                <mat-option value="days">days</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          } @else {
+          <mat-form-field>
+            <mat-label>Select</mat-label>
+            <mat-select formControlName="title">
+              <mat-option value="Freeze">Freeze</mat-option>
+              <mat-option value="Additional">Additional</mat-option>
+              <mat-option value="Cool">Cool</mat-option>
+              <mat-option value="Marinate">Marinate</mat-option>
+              <mat-option value="Rest">Rest</mat-option>
+              <mat-option value="Soak">Soak</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <input
+              matInput
+              type="number"
+              placeholder="0"
+              formControlName="time"
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Select</mat-label>
+            <mat-select formControlName="unit">
+              <mat-option value="mins">mins</mat-option>
+              <mat-option value="hours">hours</mat-option>
+              <mat-option value="days">days</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <button type="button" (click)="onDelete($index, 'recipePrepTime')">
+            <mat-icon>delete</mat-icon>
+          </button>
+          }
+        </div>
+        }
+        <button type="button" (click)="onAddTime()">Add Time</button>
+      </div>
     </div>
-    <button type="submit">Submit</button>
+    <hr />
+    <button type="submit">Submit Recipe</button>
   </form>
 </div>

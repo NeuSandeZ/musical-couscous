@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import { MatInputModule } from '@angular/material/input';
+
+import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {
   FormArray,
@@ -9,10 +11,17 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { MatIcon } from '@angular/material/icon';
 @Component({
   selector: 'app-recipe-add',
   standalone: true,
-  imports: [MatInputModule, MatFormFieldModule, ReactiveFormsModule],
+  imports: [
+    MatInputModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    MatIcon,
+    MatSelectModule,
+  ],
   templateUrl: './recipe-add.component.html',
   styleUrl: './recipe-add.component.css',
 })
@@ -43,33 +52,78 @@ export class RecipeAddComponent implements OnInit {
     console.log(this.recipeForm);
   }
 
-  get controls() {
-    return (<FormArray>this.recipeForm.get('recipeIngredients')).controls;
+  get ingredientControls() {
+    return (this.recipeForm.get('recipeIngredients') as FormArray).controls;
+  }
+
+  get stepControls() {
+    return (this.recipeForm.get('recipeSteps') as FormArray).controls;
+  }
+
+  get prepTime() {
+    return (this.recipeForm.get('recipePrepTime') as FormArray).controls;
   }
 
   private initForm() {
     let recipeTitle = '';
     let recipeDescription = '';
     let recipeImg: File; // File or img url?
+    let recipeServings = '';
+    let recipeServingsYield = '';
     let recipeIngredients = new FormArray([
-      new FormControl(),
-      new FormControl(),
+      new FormControl('e.g. 2 spoons of sugar powder'),
+      new FormControl('e.g. 1 cup of flour'),
+      new FormControl('e.g. 2 eggs'),
     ]);
-    let recipeSteps = new FormArray([]);
+    let recipeSteps = new FormArray([
+      new FormControl('e.g. Preheat oven to 350degrees C...'),
+      new FormControl('e.g. Combine all dry ingredients in a large bowl..'),
+    ]);
+    let recipeTime = new FormArray([
+      new FormGroup({
+        title: new FormControl('Prep Time'),
+        time: new FormControl(),
+        unit: new FormControl(),
+      }),
+      new FormGroup({
+        title: new FormControl('Cook Time'),
+        time: new FormControl(),
+        unit: new FormControl(),
+      }),
+    ]);
 
     this.recipeForm = new FormGroup({
-      recipeTitle: new FormControl(recipeTitle),
-      recipeDescription: new FormControl(recipeDescription),
+      recipeTitle: new FormControl(recipeTitle, Validators.required),
+      recipeDescription: new FormControl(
+        recipeDescription,
+        Validators.required
+      ),
       imageFile: new FormControl(recipeImg!),
+      recipeServings: new FormControl(recipeServings),
+      recipeServingsYield: new FormControl(recipeServingsYield),
       recipeIngredients: recipeIngredients,
+      recipeSteps: recipeSteps,
+      recipePrepTime: recipeTime,
     });
   }
 
-  onAddIngredient() {
-    (<FormArray>this.recipeForm.get('recipeIngredients')).push(
+  onAddTime() {
+    (this.recipeForm.get('recipePrepTime') as FormArray).push(
       new FormGroup({
-        recipeIngredient: new FormControl(null, Validators.required),
+        title: new FormControl(),
+        time: new FormControl(),
+        unit: new FormControl(),
       })
+    );
+  }
+
+  onDelete(index: number, controlName: string) {
+    (this.recipeForm.get(controlName) as FormArray).removeAt(index);
+  }
+
+  onAdd(controlName: string, name: string) {
+    (this.recipeForm.get(controlName) as FormArray).push(
+      new FormControl('Add another ' + name, Validators.required)
     );
   }
 }

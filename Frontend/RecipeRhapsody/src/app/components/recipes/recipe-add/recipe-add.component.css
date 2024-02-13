@@ -27,4 +27,10 @@
 
 .container-with-delete {
   display: flex;
+  align-items: first baseline;
+  justify-items: center;
+}
+
+.file-input {
+  display: none;
 }
