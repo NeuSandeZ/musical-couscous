@@ -31,7 +31,10 @@ export class RecipeService {
     // this.recipes.push(recipe);
   }
 
-  // addPhoto(formData: FormData) {
-  //   this._httpClient.post(this)
-  // }
+  addPhoto(formData: FormData) {
+    return this._httpClient.post<{ imageUrl: string }>(
+      this.baseUrl + '/recipe/image',
+      formData
+    );
+  }
 }

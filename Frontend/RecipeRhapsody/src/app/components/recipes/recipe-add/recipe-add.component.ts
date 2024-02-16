@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
 import { MatInputModule } from '@angular/material/input';
-
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {
@@ -14,6 +13,7 @@ import {
 import { MatIcon } from '@angular/material/icon';
 import { RecipeService } from '../../../Services/recipe.service';
 import { IRecipe } from '../../../Models/irecipe';
+import { firstValueFrom } from 'rxjs';
 @Component({
   selector: 'app-recipe-add',
   standalone: true,
@@ -123,20 +123,18 @@ export class RecipeAddComponent implements OnInit {
     }
   }
 
-  onSubmit() {
-    const form = new FormData();
+  async onSubmit() {
+    let imageUrl!: string;
 
     if (this.selectedFile) {
-      form.append(
-        'imageFile',
-        new Blob([this.recipeForm.value.imageFile]),
-        'myTestFileName' //TODO assigning unique name
-      );
+      const form = new FormData();
+      form.append('imageFile', new Blob([this.recipeForm.value.imageFile]));
+      imageUrl = (await firstValueFrom(this._recipeService.addPhoto(form)))
+        .imageUrl;
     }
 
-    //TODO send ASYNC request with img
-
     const recipe: IRecipe = {
+      imageUrl: imageUrl,
       servings: this.recipeForm.value.servings,
       servingsYield: this.recipeForm.value.servingsYield,
       title: this.recipeForm.value.title,
@@ -145,7 +143,6 @@ export class RecipeAddComponent implements OnInit {
       steps: this.recipeForm.value.steps,
       prepTimes: this.recipeForm.value.prepTimes,
     };
-
     this._recipeService.addRecipe(recipe);
   }
 }

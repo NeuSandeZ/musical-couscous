@@ -1,6 +1,7 @@
 import { IPrepTime } from './iprepTime';
 
 export interface IRecipe {
+  imageUrl?: string;
   servings: number;
   servingsYield: string;
   title: string;
