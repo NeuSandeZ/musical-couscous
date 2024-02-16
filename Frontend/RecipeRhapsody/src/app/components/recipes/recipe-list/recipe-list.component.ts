@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RecipeItemComponent } from '../recipe-item/recipe-item.component';
-import { Recipe } from '../../../Models/recipe';
+import { IRecipe } from '../../../Models/irecipe';
 import { RecipeService } from '../../../Services/recipe.service';
 
 @Component({
@@ -11,7 +11,7 @@ import { RecipeService } from '../../../Services/recipe.service';
   styleUrl: './recipe-list.component.css',
 })
 export class RecipeListComponent implements OnInit {
-  recipes!: Recipe[];
+  recipes!: IRecipe[];
 
   constructor(private readonly _recipesService: RecipeService) {}
   ngOnInit(): void {

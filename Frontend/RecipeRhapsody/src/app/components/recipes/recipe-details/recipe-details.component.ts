@@ -4,7 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { RecipeService } from '../../../Services/recipe.service';
-import { Recipe } from '../../../Models/recipe';
+import { IRecipe } from '../../../Models/irecipe';
 import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({
@@ -15,7 +15,7 @@ import { ActivatedRoute, Params } from '@angular/router';
   styleUrl: './recipe-details.component.css',
 })
 export class RecipeDetailsComponent implements OnInit {
-  recipe!: Recipe;
+  recipe!: IRecipe;
   id!: number;
 
   constructor(

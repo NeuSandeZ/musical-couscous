@@ -13,7 +13,7 @@
               matInput
               type="text"
               placeholder="Give your recipe a title"
-              formControlName="recipeTitle"
+              formControlName="title"
             />
           </mat-form-field>
         </div>
@@ -24,7 +24,7 @@
               matInput
               type="text"
               placeholder="Share the story behind your recipe!"
-              formControlName="recipeDescription"
+              formControlName="description"
             ></textarea>
           </mat-form-field>
         </div>
@@ -55,7 +55,7 @@
       Cake, Frosting, Dressing).
     </p>
     @for (item of ingredientControls; track $index) {
-    <div formArrayName="recipeIngredients">
+    <div formArrayName="ingredients">
       <div class="container-with-delete">
         <mat-form-field class="example-full-width">
           <mat-label>Ingredient</mat-label>
@@ -66,13 +66,13 @@
             [formControlName]="$index"
           />
         </mat-form-field>
-        <button type="button" (click)="onDelete($index, 'recipeIngredients')">
+        <button type="button" (click)="onDelete($index, 'ingredients')">
           <mat-icon>delete</mat-icon>
         </button>
       </div>
     </div>
     }
-    <button type="button" (click)="onAdd('recipeIngredients', 'ingredient')">
+    <button type="button" (click)="onAdd('ingredients', 'ingredient')">
       Add Ingredient
     </button>
     <hr />
@@ -83,7 +83,7 @@
       different parts of the recipe (i.e. Prep, Bake, Decorate).
     </p>
     @for (item of stepControls; track $index) {
-    <div formArrayName="recipeSteps">
+    <div formArrayName="steps">
       <div class="container-with-delete">
         <mat-form-field class="example-full-width">
           <mat-label>Step {{ $index + 1 }}</mat-label>
@@ -94,15 +94,13 @@
             [formControlName]="$index"
           ></textarea>
         </mat-form-field>
-        <button type="button" (click)="onDelete($index, 'recipeSteps')">
+        <button type="button" (click)="onDelete($index, 'steps')">
           <mat-icon>delete</mat-icon>
         </button>
       </div>
     </div>
     }
-    <button type="button" (click)="onAdd('recipeSteps', 'step')">
-      Add Step
-    </button>
+    <button type="button" (click)="onAdd('steps', 'step')">Add Step</button>
     <hr />
     <div class="container-with-delete">
       <mat-form-field class="example-full-width">
@@ -111,7 +109,7 @@
           matInput
           type="number"
           placeholder="e.g. 8"
-          formControlName="recipeServings"
+          formControlName="servings"
         />
       </mat-form-field>
       <mat-form-field class="example-full-width">
@@ -120,14 +118,14 @@
           matInput
           type="text"
           placeholder="e.g. 1 9-inch cake"
-          formControlName="recipeServingsYield"
+          formControlName="servingsYield"
         />
       </mat-form-field>
     </div>
     <hr />
     <div class="container-with-delete">
-      <div formArrayName="recipePrepTime">
-        @for (item of prepTime; track $index) {
+      <div formArrayName="prepTimes">
+        @for (item of prepTimes; track $index) {
         <div [formGroupName]="$index">
           @if ($index < 2) {
           <div class="container-with-delete">
@@ -177,7 +175,7 @@
               <mat-option value="days">days</mat-option>
             </mat-select>
           </mat-form-field>
-          <button type="button" (click)="onDelete($index, 'recipePrepTime')">
+          <button type="button" (click)="onDelete($index, 'prepTimes')">
             <mat-icon>delete</mat-icon>
           </button>
           }
