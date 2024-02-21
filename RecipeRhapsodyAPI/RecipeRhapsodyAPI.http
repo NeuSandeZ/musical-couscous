@@ -1,6 +1,44 @@
 @RecipeRhapsodyAPI_HostAddress = http://localhost:5162
 
-GET {{RecipeRhapsodyAPI_HostAddress}}/weatherforecast/
+GET {{RecipeRhapsodyAPI_HostAddress}}/api/foo HTTP/1.1
+Authorization: Bearer CfDJ8ARCrUpmUXhBgdwv-FD4cJVfBtIM_MlYsm6cXMqs95rS4HdDpR317B54DmUYVZXd7yltQk83yc_DbsHEr1UAHoZOUeAAhqn63hekS5nOsQ2WY3eiIWFKh4Ihy0-NWCJf9RAT450lhmebyAXQMCxyxK8OrvHqRu6xEY2Ch8bNQF3E7xRgOSDWSMdw41Jyra70HOVBdhCwlviOixb9kQoG2qfLz_6qCc3qzO-6HTyxUPQolxYEMTKgMRnhi4mwvCHiMo7yHDrGnASHlN79G3IbnW9Q732e6-NTv3QH-aKa_iKMAFTgqtUOIcYfPWYv5J-SYUqKtbk1WKhgf1qnCExTuadkC2Rz282zVoQxfFN7pgROmYK-7vU-ain7v92HAxM6xUDC4XZn8itsJpR-ehk1IK_H9iWYtM58F-8nOwXhc_jwa46GXJwT0TjAjg02COqDxifaZ89MbgJoWMIlClwpKcezjsJKoRv8SJbIKbqjEWr2hgE6pTTyqvFi3GQ3RUDU8IrxkL9-X4AsshrTEXLn9AEmdWkEE-kC7d20WJFZKOdWhZqGnT1BwChkto2jmvVBlmH2STNd1trRt3pGBqMiWSSPXE65Jp_TzAyH0i53_tGqz6g6BrQYlCF88TOOMktdN4xIyYlcU9skX6UQgwlo4ZaBURdsWvOyrYnaRn4GBysMyq_BFfoSYybEu6St-1B5Gg
+###
+
+POST {{RecipeRhapsodyAPI_HostAddress}}/register HTTP/1.1
+content-type: application/json
 Accept: application/json
 
+{
+    "email": "wojtek@wojtek.pl",
+    "password": "hasloWojtek1!"
+}
 ###
+
+POST {{RecipeRhapsodyAPI_HostAddress}}/login HTTP/1.1
+content-type: application/json
+Accept: application/json
+
+{
+    "email": "wojtek@wojtek.pl",
+    "password": "hasloWojtek1!"
+}
+###
+
+POST {{RecipeRhapsodyAPI_HostAddress}}/login HTTP/1.1
+content-type: application/json
+Accept: application/json
+
+{
+    "email": "wojtek@bartek.pl",
+    "password": "hasloWojtek2!"
+}
+###
+
+POST {{RecipeRhapsodyAPI_HostAddress}}/logout HTTP/1.1
+Authorization: Bearer CfDJ8ARCrUpmUXhBgdwv-FD4cJVfBtIM_MlYsm6cXMqs95rS4HdDpR317B54DmUYVZXd7yltQk83yc_DbsHEr1UAHoZOUeAAhqn63hekS5nOsQ2WY3eiIWFKh4Ihy0-NWCJf9RAT450lhmebyAXQMCxyxK8OrvHqRu6xEY2Ch8bNQF3E7xRgOSDWSMdw41Jyra70HOVBdhCwlviOixb9kQoG2qfLz_6qCc3qzO-6HTyxUPQolxYEMTKgMRnhi4mwvCHiMo7yHDrGnASHlN79G3IbnW9Q732e6-NTv3QH-aKa_iKMAFTgqtUOIcYfPWYv5J-SYUqKtbk1WKhgf1qnCExTuadkC2Rz282zVoQxfFN7pgROmYK-7vU-ain7v92HAxM6xUDC4XZn8itsJpR-ehk1IK_H9iWYtM58F-8nOwXhc_jwa46GXJwT0TjAjg02COqDxifaZ89MbgJoWMIlClwpKcezjsJKoRv8SJbIKbqjEWr2hgE6pTTyqvFi3GQ3RUDU8IrxkL9-X4AsshrTEXLn9AEmdWkEE-kC7d20WJFZKOdWhZqGnT1BwChkto2jmvVBlmH2STNd1trRt3pGBqMiWSSPXE65Jp_TzAyH0i53_tGqz6g6BrQYlCF88TOOMktdN4xIyYlcU9skX6UQgwlo4ZaBURdsWvOyrYnaRn4GBysMyq_BFfoSYybEu6St-1B5Gg
+Content-Type: application/json
+Accept: application/json
+
+{
+
+}

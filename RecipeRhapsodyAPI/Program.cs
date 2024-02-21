@@ -1,7 +1,39 @@
+using Microsoft.EntityFrameworkCore;
+using RecipeRhapsodyAPI;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddControllers();
+
+builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IRecipeService, RecipeService>();
+builder.Services.AddScoped<IRecipeMapper, RecipeMapper>();
+
+builder.Services.AddDbContext<RecipeContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("RecipeRhapsody"));
+});
+
+builder.Services.AddExceptionHandler<AppExceptionHandler>();
+
+builder.Services.AddAuthorization();
+
+// builder.Services.AddAuthentication();
+
+
+builder
+    .Services.AddIdentityApiEndpoints<ApplicationUser>()
+    .AddEntityFrameworkStores<RecipeContext>();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(
+        "AllowAngular",
+        builder => builder.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader()
+    );
+});
 
 var app = builder.Build();
 
@@ -12,31 +44,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseExceptionHandler(_ => { });
+app.UseStaticFiles();
+app.MapIdentityApi<ApplicationUser>();
 app.UseHttpsRedirection();
-
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast")
-.WithOpenApi();
+app.UseCors("AllowAngular");
+app.UseAuthentication();
+app.UseAuthorization();
+app.MapControllers();
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
