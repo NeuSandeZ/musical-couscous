@@ -1,33 +1,23 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { IRecipe } from '../Models/irecipe';
 import { HttpClient } from '@angular/common/http';
+import { Subject } from 'rxjs';
+import { IRecipeListing } from '../Models/irecipeListing';
 @Injectable({ providedIn: 'root' })
 export class RecipeService {
-  recipes: IRecipe[] = [];
+  recipes: IRecipeListing[] = [];
+  // recipesChanged = new Subject<IRecipe[]>();
 
-  constructor(private readonly _httpClient: HttpClient) {}
-
-  getRecipes() {
-    return this.recipes.slice();
-  }
-
-  getRecipe(index: number): IRecipe {
-    return this.recipes[index];
-  }
-
-  baseUrl: string = 'http://localhost:5162';
+  constructor(
+    @Inject('BASE_URL') public baseUrl: string,
+    private readonly _httpClient: HttpClient
+  ) {}
 
   addRecipe(recipe: IRecipe) {
-    this._httpClient
-      .post(this.baseUrl + '/recipe/add-recipe', recipe)
-      .subscribe(
-        (resData) => {
-          console.log('resData :>> ', resData);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+    return this._httpClient.post<{ created: boolean }>(
+      this.baseUrl + '/recipe/add-recipe',
+      recipe
+    );
     // this.recipes.push(recipe);
   }
 
@@ -36,5 +26,15 @@ export class RecipeService {
       this.baseUrl + '/recipe/image',
       formData
     );
+  }
+
+  fetchRecipes() {
+    return this._httpClient.get<IRecipeListing[]>(
+      this.baseUrl + '/recipe/fetchRecipes'
+    );
+  }
+
+  fetchRecipe(id: number) {
+    return this._httpClient.get<IRecipe>(this.baseUrl + '/recipe/' + id);
   }
 }

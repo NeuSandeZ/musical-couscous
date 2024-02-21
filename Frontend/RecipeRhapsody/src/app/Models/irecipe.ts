@@ -3,7 +3,7 @@ import { IPrepTime } from './iprepTime';
 export interface IRecipe {
   imageUrl?: string;
   servings: number;
-  servingsYield: string;
+  servingsYield?: string;
   title: string;
   description: string;
   ingredients: string[];
@@ -12,6 +12,5 @@ export interface IRecipe {
 
   createdBy?: string;
   updatedOn?: Date;
-  imgUrl?: string;
   category?: string;
 }

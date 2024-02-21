@@ -1,10 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { RecipeService } from '../../../Services/recipe.service';
-import { IRecipe } from '../../../Models/irecipe';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { IRecipeListing } from '../../../Models/irecipeListing';
 
 @Component({
   selector: 'app-recipe-item',
@@ -14,12 +13,11 @@ import { RouterLink } from '@angular/router';
   styleUrl: './recipe-item.component.css',
 })
 export class RecipeItemComponent implements OnInit {
-  recipe!: IRecipe;
-  @Input() index!: number;
+  @Input() recipe!: IRecipeListing;
 
-  constructor(private readonly _recipeService: RecipeService) {}
+  constructor(@Inject('BASE_URL') public baseUrl: string) {}
 
   ngOnInit(): void {
-    this.recipe = this._recipeService.getRecipe(this.index);
+    // this.recipe = this._recipeService.getRecipe(this.index);
   }
 }

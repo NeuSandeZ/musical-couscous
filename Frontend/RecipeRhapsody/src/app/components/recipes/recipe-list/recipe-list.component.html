@@ -1,7 +1,18 @@
-<div class="row row-cols-1 row-cols-sm-4">
-  @for (recipes of recipes; track $index) {
-  <div class="col mb-sm-4">
-    <app-recipe-item [index]="$index"></app-recipe-item>
-  </div>
-  }
+@if (isLoading) {
+<div
+  style="height: 100vh"
+  class="d-flex justify-content-center align-items-center"
+>
+  <app-loading-spinner class="mx-auto"></app-loading-spinner>
 </div>
+} @else {
+<div>
+  <div class="row row-cols-1 row-cols-sm-4">
+    @for (recipe of recipes; track $index) {
+    <div class="col mb-sm-4">
+      <app-recipe-item [recipe]="recipe"></app-recipe-item>
+    </div>
+    }
+  </div>
+</div>
+}

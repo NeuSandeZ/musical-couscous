@@ -1,5 +1,5 @@
 <div class="col">
-  <a [routerLink]="[index]" class="list-group-item clearfix">
+  <a [routerLink]="[recipe.id]" class="list-group-item clearfix">
     <div class="card">
       <div>
         <div class="mat-icon-absolute">
@@ -9,7 +9,7 @@
             </button>
           </div>
         </div>
-        <img [src]="recipe.imgUrl" class="card-img-top" alt="..." />
+        <img [src]="baseUrl + recipe.imageUrl" class="card-img-top" alt="..." />
       </div>
       <div class="card-body">
         <h5 class="card-title">{{ recipe.title }}</h5>

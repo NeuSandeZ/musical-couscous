@@ -1,7 +1,11 @@
 <div>
   <h1>{{ recipe.title }}</h1>
   <div class="card">
-    <img class="card-img-top" [src]="recipe.imgUrl" alt="Card image cap" />
+    <img
+      class="card-img-top"
+      [src]="baseUrl + recipe.imageUrl"
+      alt="Card image cap"
+    />
     <div class="card-body">
       <p class="card-text">
         {{ recipe.description }}
@@ -46,7 +50,7 @@
       @for (item of recipe.prepTimes; track $index) {
       <div class="col-sm-4">
         <span class="recipe-header">{{ item.title }}:</span>
-        {{ item.time }} mins
+        {{ item.time }} <span> {{ item.unit }}</span>
       </div>
       }
     </div>
@@ -60,7 +64,7 @@
       <div class="col m-2">
         @for (item of recipe.steps; track $index) {
         <div class="card-body">
-          <h3 class="card-title">Step {{ $index }}</h3>
+          <h3 class="card-title">Step {{ $index + 1 }}</h3>
           <p class="card-text">{{ item }}</p>
         </div>
         }

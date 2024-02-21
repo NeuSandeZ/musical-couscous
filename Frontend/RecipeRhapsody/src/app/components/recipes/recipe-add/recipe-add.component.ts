@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { Dialog } from '@angular/cdk/dialog';
 import {
   FormArray,
   FormControl,
@@ -14,6 +15,8 @@ import { MatIcon } from '@angular/material/icon';
 import { RecipeService } from '../../../Services/recipe.service';
 import { IRecipe } from '../../../Models/irecipe';
 import { firstValueFrom } from 'rxjs';
+import { DialogWindowComponent } from '../../shared/dialog-window/dialog-window.component';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-recipe-add',
   standalone: true,
@@ -38,7 +41,13 @@ export class RecipeAddComponent implements OnInit {
     this.initForm();
   }
 
-  constructor(private readonly _recipeService: RecipeService) {}
+  ngOnDestroy(): void {}
+
+  constructor(
+    private readonly _recipeService: RecipeService,
+    private readonly _navigator: Router,
+    public dialog: Dialog
+  ) {}
 
   get ingredientControls() {
     return (this.recipeForm.get('ingredients') as FormArray).controls;
@@ -59,24 +68,30 @@ export class RecipeAddComponent implements OnInit {
     let servings = '';
     let servingsYield = '';
     let ingredients = new FormArray([
-      new FormControl('e.g. 2 spoons of sugar powder'),
-      new FormControl('e.g. 1 cup of flour'),
-      new FormControl('e.g. 2 eggs'),
+      new FormControl('e.g. 2 spoons of sugar powder', Validators.required),
+      new FormControl('e.g. 1 cup of flour', Validators.required),
+      new FormControl('e.g. 2 eggs', Validators.required),
     ]);
     let steps = new FormArray([
-      new FormControl('e.g. Preheat oven to 350degrees C...'),
-      new FormControl('e.g. Combine all dry ingredients in a large bowl..'),
+      new FormControl(
+        'e.g. Preheat oven to 350degrees C...',
+        Validators.required
+      ),
+      new FormControl(
+        'e.g. Combine all dry ingredients in a large bowl..',
+        Validators.required
+      ),
     ]);
     let prepTimes = new FormArray([
       new FormGroup({
-        title: new FormControl('Prep Time'),
-        time: new FormControl(),
-        unit: new FormControl(),
+        title: new FormControl('Prep Time', Validators.required),
+        time: new FormControl(Validators.required),
+        unit: new FormControl(Validators.required),
       }),
       new FormGroup({
-        title: new FormControl('Cook Time'),
-        time: new FormControl(),
-        unit: new FormControl(),
+        title: new FormControl('Cook Time', Validators.required),
+        time: new FormControl(Validators.required),
+        unit: new FormControl(Validators.required),
       }),
     ]);
 
@@ -84,7 +99,7 @@ export class RecipeAddComponent implements OnInit {
       title: new FormControl(title, Validators.required),
       description: new FormControl(description, Validators.required),
       imageFile: new FormControl(recipeImg!),
-      servings: new FormControl(servings),
+      servings: new FormControl(servings, Validators.required),
       servingsYield: new FormControl(servingsYield),
       ingredients: ingredients,
       steps: steps,
@@ -128,7 +143,7 @@ export class RecipeAddComponent implements OnInit {
 
     if (this.selectedFile) {
       const form = new FormData();
-      form.append('imageFile', new Blob([this.recipeForm.value.imageFile]));
+      form.append('imageFile', this.selectedFile);
       imageUrl = (await firstValueFrom(this._recipeService.addPhoto(form)))
         .imageUrl;
     }
@@ -143,6 +158,22 @@ export class RecipeAddComponent implements OnInit {
       steps: this.recipeForm.value.steps,
       prepTimes: this.recipeForm.value.prepTimes,
     };
-    this._recipeService.addRecipe(recipe);
+    this._recipeService.addRecipe(recipe).subscribe({
+      next: (resData) => {
+        if (resData.created) {
+          //TODO maybe pass some variable changing background to indicate the error?
+          //TODO style the dialog window
+          const dialogRef = this.dialog.open<string>(DialogWindowComponent, {
+            data: { paragraph: 'Successfully created recipe:' + recipe.title },
+          });
+          dialogRef.closed.subscribe(() => {
+            this._navigator.navigate(['/recipes']);
+          });
+        }
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
   }
 }
