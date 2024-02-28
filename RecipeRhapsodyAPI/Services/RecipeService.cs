@@ -3,25 +3,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace RecipeRhapsodyAPI;
 
-public sealed class RecipeService : IRecipeService
+public sealed class RecipeService(
+    RecipeContext dbContext,
+    IWebHostEnvironment webHostEnvironment,
+    IRecipeMapper recipeMapper,
+    IHttpContextAccessor httpContextAccessor
+) : IRecipeService
 {
-    private readonly RecipeContext _dbContext;
-    private readonly IWebHostEnvironment _webHostEnvironment;
-    private readonly IRecipeMapper _recipeMapper;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-
-    public RecipeService(
-        RecipeContext dbContext,
-        IWebHostEnvironment webHostEnvironment,
-        IRecipeMapper recipeMapper,
-        IHttpContextAccessor httpContextAccessor
-    )
-    {
-        _dbContext = dbContext;
-        _webHostEnvironment = webHostEnvironment;
-        _recipeMapper = recipeMapper;
-        _httpContextAccessor = httpContextAccessor;
-    }
+    private readonly RecipeContext _dbContext = dbContext;
+    private readonly IWebHostEnvironment _webHostEnvironment = webHostEnvironment;
+    private readonly IRecipeMapper _recipeMapper = recipeMapper;
+    private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
 
     public async Task<object> AddRecipe(RecipeDto recipeDto)
     {
@@ -65,16 +57,28 @@ public sealed class RecipeService : IRecipeService
 
         string imageUrl = Path.Combine("/images/", fileName);
 
-        // Console.WriteLine("Filename: " + fileName);
-        // Console.WriteLine("Image URL: " + imageUrl);
-
         return new { imageUrl };
     }
 
-    public async Task<List<RecipeListingDto>> GetRecipes()
+    public async Task<List<RecipeListingDto>> GetRecipes(bool? userRecipes = null)
     {
-        return await _dbContext
-            .Recipes.Select(r => new RecipeListingDto
+        var baseQuery = _dbContext.Recipes.AsQueryable().AsNoTracking();
+
+        if (userRecipes == true)
+        {
+            var user = _httpContextAccessor?.HttpContext?.User;
+
+            if (user == null || user.Identity.IsAuthenticated == false)
+            {
+                throw new ForbidException("Forbidden action!");
+            }
+
+            var id = user.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)!.Value;
+            baseQuery = baseQuery.Where(a => a.ApplicationUserId == id);
+        }
+
+        return await baseQuery
+            .Select(r => new RecipeListingDto
             {
                 Id = r.Id,
                 ImageUrl = r.ImageUrl,
@@ -88,17 +92,75 @@ public sealed class RecipeService : IRecipeService
     {
         var recipe =
             await _dbContext
-                .Recipes.Include(u => u.ApplicationUser)
-                .Include(i => i.Ingredients)
+                .Recipes.Include(i => i.Ingredients)
                 .Include(s => s.Steps)
                 .Include(p => p.PrepTimes)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(a => a.Id == id)
             ?? throw new NotFoundException("Recipe not found!");
-        return _recipeMapper.MapToRecipeDto(recipe);
 
-        // return _recipeMapper.MapToRecipeDto(
-        //     await _dbContext.Recipes.FirstOrDefaultAsync(a => a.Id == id)
-        //         ?? throw new NotFoundException("Recipe not found!")
-        // );
+        return _recipeMapper.MapToRecipeDto(recipe);
+    }
+
+    public async Task<object> PatchRecipe(RecipeDto recipeDto)
+    {
+        //TODO check if user has access to source, namely check if user sending the request == creator of recipe
+
+        var recipe =
+            await _dbContext
+                .Recipes.Include(a => a.Ingredients)
+                .Include(a => a.Steps)
+                .Include(a => a.PrepTimes)
+                .FirstOrDefaultAsync(r => r.Id == recipeDto.Id)
+            ?? throw new NotFoundException("Recipe not found!");
+
+        recipe.Title = recipeDto.Title;
+        recipe.Description = recipeDto.Description;
+        recipe.Servings = recipeDto.Servings;
+        recipe.ServingsYield = recipeDto.ServingsYield;
+
+        recipe.UpdatedOn = DateTime.UtcNow;
+
+        recipe.Ingredients = recipeDto
+            .Ingredients.Select(ingredient => new Ingredient { Name = ingredient })
+            .ToList();
+        recipe.Steps = recipeDto.Steps.Select(step => new Step { Description = step }).ToList();
+        recipe.PrepTimes = recipeDto
+            .PrepTimes.Select(prepTime => new PrepTime
+            {
+                Title = prepTime.Title,
+                Time = prepTime.Time,
+                Unit = prepTime.Unit
+            })
+            .ToList();
+
+        await _dbContext.SaveChangesAsync();
+
+        return new { Updated = true };
+    }
+
+    public async Task DeleteRecipe(int id)
+    {
+        //TODO check if user has access to source, namely check if user sending the request == creator of recipe
+
+        var recipe =
+            _dbContext.Recipes.FirstOrDefault(a => a.Id == id)
+            ?? throw new NotFoundException("Recipe not found!");
+
+        if (!string.IsNullOrEmpty(recipe.ImageUrl))
+        {
+            //TODO Path.Combine() doesn't work for some reason
+            // var photoPath = Path.Combine(_webHostEnvironment.WebRootPath, recipe.ImageUrl);
+
+            var photoPath = _webHostEnvironment.WebRootPath + recipe.ImageUrl.Replace("/", "\\");
+
+            if (File.Exists(photoPath))
+            {
+                File.Delete(photoPath);
+            }
+        }
+
+        _dbContext.Remove(recipe);
+        await _dbContext.SaveChangesAsync();
     }
 }

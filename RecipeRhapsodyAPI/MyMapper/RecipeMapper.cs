@@ -29,6 +29,7 @@ public sealed class RecipeMapper : IRecipeMapper
         {
             //Email or username instead of id!
             CreatedBy = recipe.ApplicationUserId,
+            UpdatedOn = recipe.UpdatedOn,
             ImageUrl = recipe.ImageUrl,
             Title = recipe.Title,
             Description = recipe.Description,

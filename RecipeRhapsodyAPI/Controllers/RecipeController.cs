@@ -28,10 +28,10 @@ public sealed class RecipeController : ControllerBase
     }
 
     [AllowAnonymous]
-    [HttpGet("fetchRecipes")]
-    public async Task<List<RecipeListingDto>> GetRecipes()
+    [HttpGet("fetchRecipes/{userRecipes?}")]
+    public async Task<List<RecipeListingDto>> GetRecipes([FromQuery] bool? userRecipes = null)
     {
-        return await _recipeService.GetRecipes();
+        return await _recipeService.GetRecipes(userRecipes);
     }
 
     [AllowAnonymous]
@@ -39,5 +39,17 @@ public sealed class RecipeController : ControllerBase
     public async Task<RecipeDto> GetRecipe([FromRoute] int id)
     {
         return await _recipeService.GetRecipe(id);
+    }
+
+    [HttpPatch("patch")]
+    public async Task<object> PatchRecipe([FromBody] RecipeDto recipeDto)
+    {
+        return await _recipeService.PatchRecipe(recipeDto);
+    }
+
+    [HttpDelete("{id}/delete")]
+    public async Task DeleteRecipe([FromRoute] int id)
+    {
+        await _recipeService.DeleteRecipe(id);
     }
 }

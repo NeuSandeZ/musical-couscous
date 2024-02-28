@@ -37,7 +37,14 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+using var scope = app.Services.CreateScope();
+var dbContext = scope.ServiceProvider.GetRequiredService<RecipeContext>();
+var pendingMigraitons = dbContext.Database.GetPendingMigrations();
+if (pendingMigraitons.Any())
+{
+    dbContext.Database.Migrate();
+}
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

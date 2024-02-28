@@ -6,6 +6,7 @@ public sealed class Recipe
     public ApplicationUser ApplicationUser { get; set; }
     public string ApplicationUserId { get; set; }
 
+    public DateTime? UpdatedOn { get; set; }
     public string? ImageUrl { get; set; }
     public string Title { get; set; }
     public string Description { get; set; }
