@@ -16,6 +16,7 @@ export class RecipeListComponent implements OnInit, OnDestroy {
   recipes!: IRecipeListing[];
   recipeSub!: Subscription;
   isLoading: boolean = false;
+  isError: boolean = false;
 
   constructor(private readonly _recipesService: RecipeService) {}
 
@@ -31,9 +32,13 @@ export class RecipeListComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.recipeSub = this._recipesService.fetchRecipes().subscribe({
       next: (recipes) => {
+        this.isError = false;
         this.recipes = recipes;
-        console.log('this.recipes :>> ', this.recipes);
         this.isLoading = false;
+      },
+      error: (error) => {
+        this.isLoading = false;
+        this.isError = true;
       },
     });
   }

@@ -13,4 +13,5 @@ export interface IRecipe {
   createdBy?: string;
   updatedOn?: Date;
   category?: string;
+  id?: number;
 }

@@ -22,10 +22,17 @@
         <button mat-menu-item (click)="onLogInOut()">
           <mat-icon>exit_to_app</mat-icon>Logout
         </button>
-        <button mat-menu-item (click)="navigateToProfile()">My profile</button>
-        <button mat-menu-item>Saved Items & Collections</button>
+        <button mat-menu-item (click)="navigateTo('account/profile')">
+          My profile
+        </button>
+        <button
+          mat-menu-item
+          (click)="navigateTo('account/profile/collections')"
+        >
+          Saved Items & Collections
+        </button>
         <hr class="margin-hr-menu" />
-        <button mat-menu-item (click)="navigateToAddRecipe()">
+        <button mat-menu-item (click)="navigateTo('account/add-recipe')">
           <mat-icon>add_circle</mat-icon>Add a Recipe
         </button>
       </mat-menu>

@@ -1,0 +1,32 @@
+<div class="row-cols-5">
+  @for (recipe of recipes; track recipe) {
+  <div class="col">
+    <a
+      type="button"
+      (click)="navigate(recipe.id)"
+      class="list-group-item clearfix"
+    >
+      <div class="card">
+        <div>
+          <div class="mat-icon-absolute">
+            <div class="example-button-container"></div>
+          </div>
+          <img
+            [src]="baseUrl + recipe.imageUrl"
+            class="card-img-top"
+            alt="..."
+          />
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">{{ recipe.title }}</h5>
+          <p class="card-text">
+            {{ recipe.description }}
+          </p>
+        </div>
+      </div>
+    </a>
+    <button (click)="onEdit(recipe.id)">Edit</button>
+    <button (click)="onDelete(recipe.id)">Delete</button>
+  </div>
+  }
+</div>

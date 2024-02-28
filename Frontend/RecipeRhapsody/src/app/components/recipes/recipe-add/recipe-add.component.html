@@ -54,7 +54,7 @@
       Use optional headers to organize the different parts of the recipe (i.e.
       Cake, Frosting, Dressing).
     </p>
-    @for (item of ingredientControls; track $index) {
+    @for (item of ingredientControls; track item; let index = $index) {
     <div formArrayName="ingredients">
       <div class="container-with-delete">
         <mat-form-field class="example-full-width">
@@ -63,10 +63,10 @@
             matInput
             type="text"
             [placeholder]="item.value"
-            [formControlName]="$index"
+            [formControlName]="index"
           />
         </mat-form-field>
-        <button type="button" (click)="onDelete($index, 'ingredients')">
+        <button type="button" (click)="onDelete(index, 'ingredients')">
           <mat-icon>delete</mat-icon>
         </button>
       </div>
@@ -82,19 +82,19 @@
       cooking times, and pan sizes, etc. Use optional headers to organize the
       different parts of the recipe (i.e. Prep, Bake, Decorate).
     </p>
-    @for (item of stepControls; track $index) {
+    @for (item of stepControls; track item; let index = $index) {
     <div formArrayName="steps">
       <div class="container-with-delete">
         <mat-form-field class="example-full-width">
-          <mat-label>Step {{ $index + 1 }}</mat-label>
+          <mat-label>Step {{ index + 1 }}</mat-label>
           <textarea
             matInput
             type="text"
             [placeholder]="item.value"
-            [formControlName]="$index"
+            [formControlName]="index"
           ></textarea>
         </mat-form-field>
-        <button type="button" (click)="onDelete($index, 'steps')">
+        <button type="button" (click)="onDelete(index, 'steps')">
           <mat-icon>delete</mat-icon>
         </button>
       </div>
@@ -126,9 +126,9 @@
     <hr />
     <div class="container-with-delete">
       <div formArrayName="prepTimes">
-        @for (item of prepTimes; track $index) {
-        <div [formGroupName]="$index">
-          @if ($index < 2) {
+        @for (item of prepTimes; track item; let index = $index) {
+        <div [formGroupName]="index">
+          @if (index < 2) {
           <div class="container-with-delete">
             <p>{{ item.get("title")?.value }}</p>
             <mat-form-field>
@@ -178,7 +178,7 @@
               <mat-option value="days">days</mat-option>
             </mat-select>
           </mat-form-field>
-          <button type="button" (click)="onDelete($index, 'prepTimes')">
+          <button type="button" (click)="onDelete(index, 'prepTimes')">
             <mat-icon>delete</mat-icon>
           </button>
           }
@@ -188,6 +188,8 @@
       </div>
     </div>
     <hr />
-    <button [disabled]="recipeForm.invalid" type="submit">Submit Recipe</button>
+    <button [disabled]="recipeForm.invalid" type="submit">
+      {{ isEditMode ? "Save Changes" : "Submit Recipe" }}
+    </button>
   </form>
 </div>

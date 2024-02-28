@@ -1,5 +1,9 @@
 {{ data.paragraph }}
 
 <hr />
-
+@if (data.enum == 2) {
+<button (click)="dialogRef.close(true)">Yes</button>
+<button (click)="dialogRef.close(false)">No</button>
+} @else {
 <button (click)="dialogRef.close()">Close</button>
+}

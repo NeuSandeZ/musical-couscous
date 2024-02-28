@@ -62,12 +62,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     });
   }
 
-  navigateToAddRecipe() {
-    this._router.navigate(['account/add-recipe']);
-  }
-
-  navigateToProfile() {
-    this._router.navigate(['account/profile']);
+  navigateTo(route: string) {
+    this._router.navigate([route]);
   }
 
   onLogInOut() {

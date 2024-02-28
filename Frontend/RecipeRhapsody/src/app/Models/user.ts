@@ -1,8 +1,15 @@
 export class User {
   constructor(
     public tokenType: string,
-    public accessToken: string,
-    public expiresIn: number,
-    public refreshToken: string
+    private accessToken: string,
+    private expiresIn: Date,
+    private refreshToken: string
   ) {}
+
+  get token() {
+    if (!this.expiresIn || new Date() > this.expiresIn) {
+      return null;
+    }
+    return this.accessToken;
+  }
 }
