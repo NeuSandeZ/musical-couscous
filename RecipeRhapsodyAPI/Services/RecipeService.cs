@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 
 namespace RecipeRhapsodyAPI;
@@ -7,13 +8,15 @@ public sealed class RecipeService(
     RecipeContext dbContext,
     IWebHostEnvironment webHostEnvironment,
     IRecipeMapper recipeMapper,
-    IHttpContextAccessor httpContextAccessor
+    IHttpContextAccessor httpContextAccessor,
+    IAuthorizationService authorizationService
 ) : IRecipeService
 {
     private readonly RecipeContext _dbContext = dbContext;
     private readonly IWebHostEnvironment _webHostEnvironment = webHostEnvironment;
     private readonly IRecipeMapper _recipeMapper = recipeMapper;
     private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
+    private readonly IAuthorizationService _authorizationService = authorizationService;
 
     public async Task<object> AddRecipe(RecipeDto recipeDto)
     {
@@ -104,8 +107,6 @@ public sealed class RecipeService(
 
     public async Task<object> PatchRecipe(RecipeDto recipeDto)
     {
-        //TODO check if user has access to source, namely check if user sending the request == creator of recipe
-
         var recipe =
             await _dbContext
                 .Recipes.Include(a => a.Ingredients)
@@ -113,6 +114,17 @@ public sealed class RecipeService(
                 .Include(a => a.PrepTimes)
                 .FirstOrDefaultAsync(r => r.Id == recipeDto.Id)
             ?? throw new NotFoundException("Recipe not found!");
+
+        var authorizationResult = await _authorizationService.AuthorizeAsync(
+            _httpContextAccessor.HttpContext.User,
+            recipe,
+            new ResourceOperationRequirement(ResourceOperation.Update)
+        );
+
+        if (!authorizationResult.Succeeded)
+        {
+            throw new ForbidException("Forbidden action!");
+        }
 
         recipe.Title = recipeDto.Title;
         recipe.Description = recipeDto.Description;
@@ -141,11 +153,20 @@ public sealed class RecipeService(
 
     public async Task DeleteRecipe(int id)
     {
-        //TODO check if user has access to source, namely check if user sending the request == creator of recipe
-
         var recipe =
             _dbContext.Recipes.FirstOrDefault(a => a.Id == id)
             ?? throw new NotFoundException("Recipe not found!");
+
+        var authorizationResult = await _authorizationService.AuthorizeAsync(
+            _httpContextAccessor.HttpContext.User,
+            recipe,
+            new ResourceOperationRequirement(ResourceOperation.Delete)
+        );
+
+        if (!authorizationResult.Succeeded)
+        {
+            throw new ForbidException("Forbidden action!");
+        }
 
         if (!string.IsNullOrEmpty(recipe.ImageUrl))
         {
