@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using RecipeRhapsodyAPI;
+using RecipeRhapsody.Application.Extensions;
+using RecipeRhapsody.Application.Persistance;
+using RecipeRhapsody.Domain.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,25 +9,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 
-builder.Services.AddScoped<IAccountService, AccountService>();
-builder.Services.AddScoped<IRecipeService, RecipeService>();
-builder.Services.AddScoped<IRecipeMapper, RecipeMapper>();
-
-builder.Services.AddDbContext<RecipeContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("RecipeRhapsody"));
-});
-
-builder.Services.AddExceptionHandler<AppExceptionHandler>();
-
-builder.Services.AddAuthorization();
-
-// builder.Services.AddAuthentication();
-
-
-builder
-    .Services.AddIdentityApiEndpoints<ApplicationUser>()
-    .AddEntityFrameworkStores<RecipeContext>();
+builder.Services.AddApplication(builder.Configuration);
 
 builder.Services.AddCors(options =>
 {
@@ -39,8 +23,8 @@ var app = builder.Build();
 
 using var scope = app.Services.CreateScope();
 var dbContext = scope.ServiceProvider.GetRequiredService<RecipeContext>();
-var pendingMigraitons = dbContext.Database.GetPendingMigrations();
-if (pendingMigraitons.Any())
+var pendingMigrations = dbContext.Database.GetPendingMigrations();
+if (pendingMigrations.Any())
 {
     dbContext.Database.Migrate();
 }

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RecipeRhapsodyAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2def106d806e30b7e9213647855786b74571a337")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3255771a921e59e7b9d6170ee6ba1ef9e1e9ad0f")]
 [assembly: System.Reflection.AssemblyProductAttribute("RecipeRhapsodyAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RecipeRhapsodyAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

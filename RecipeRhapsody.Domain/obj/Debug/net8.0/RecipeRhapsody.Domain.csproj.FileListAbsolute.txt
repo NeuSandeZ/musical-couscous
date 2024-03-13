@@ -1,0 +1,13 @@
+D:\VSCProjects\SRC\RecipeRhapsody.Domain\bin\Debug\net8.0\RecipeRhapsody.Domain.deps.json
+D:\VSCProjects\SRC\RecipeRhapsody.Domain\bin\Debug\net8.0\RecipeRhapsody.Domain.dll
+D:\VSCProjects\SRC\RecipeRhapsody.Domain\bin\Debug\net8.0\RecipeRhapsody.Domain.pdb
+D:\VSCProjects\SRC\RecipeRhapsody.Domain\obj\Debug\net8.0\RecipeRhapsody.Domain.csproj.AssemblyReference.cache
+D:\VSCProjects\SRC\RecipeRhapsody.Domain\obj\Debug\net8.0\RecipeRhapsody.Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\VSCProjects\SRC\RecipeRhapsody.Domain\obj\Debug\net8.0\RecipeRhapsody.Domain.AssemblyInfoInputs.cache
+D:\VSCProjects\SRC\RecipeRhapsody.Domain\obj\Debug\net8.0\RecipeRhapsody.Domain.AssemblyInfo.cs
+D:\VSCProjects\SRC\RecipeRhapsody.Domain\obj\Debug\net8.0\RecipeRhapsody.Domain.csproj.CoreCompileInputs.cache
+D:\VSCProjects\SRC\RecipeRhapsody.Domain\obj\Debug\net8.0\RecipeRhapsody.Domain.sourcelink.json
+D:\VSCProjects\SRC\RecipeRhapsody.Domain\obj\Debug\net8.0\RecipeRhapsody.Domain.dll
+D:\VSCProjects\SRC\RecipeRhapsody.Domain\obj\Debug\net8.0\refint\RecipeRhapsody.Domain.dll
+D:\VSCProjects\SRC\RecipeRhapsody.Domain\obj\Debug\net8.0\RecipeRhapsody.Domain.pdb
+D:\VSCProjects\SRC\RecipeRhapsody.Domain\obj\Debug\net8.0\ref\RecipeRhapsody.Domain.dll

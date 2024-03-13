@@ -27,4 +27,8 @@
     <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\RecipeRhapsody.Application\RecipeRhapsody.Application.csproj" />
+  </ItemGroup>
+
 </Project>

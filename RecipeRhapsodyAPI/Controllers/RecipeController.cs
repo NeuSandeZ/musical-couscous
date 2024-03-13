@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RecipeRhapsody.Application.IServices;
+using RecipeRhapsody.Application.RecipeDtos;
+using RecipeRhapsody.Application.SearchQueries;
 
 namespace RecipeRhapsodyAPI;
 
@@ -28,10 +31,10 @@ public sealed class RecipeController : ControllerBase
     }
 
     [AllowAnonymous]
-    [HttpGet("fetchRecipes/{userRecipes?}")]
-    public async Task<List<RecipeListingDto>> GetRecipes([FromQuery] bool? userRecipes = null)
+    [HttpGet("fetchRecipes")]
+    public async Task<List<RecipeListingDto>> GetRecipes([FromQuery] RecipeQuery query)
     {
-        return await _recipeService.GetRecipes(userRecipes);
+        return await _recipeService.GetRecipes(query);
     }
 
     [AllowAnonymous]

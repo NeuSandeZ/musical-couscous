@@ -1,8 +1,48 @@
 {
   "Files": [
     {
+      "Id": "D:\\VSCProjects\\SRC\\RecipeRhapsodyAPI\\wwwroot\\images\\04270e29-ba24-4a5a-8228-a3645fa2785e.PNG",
+      "PackagePath": "staticwebassets\\images\\04270e29-ba24-4a5a-8228-a3645fa2785e.PNG"
+    },
+    {
       "Id": "D:\\VSCProjects\\SRC\\RecipeRhapsodyAPI\\wwwroot\\images\\2094493b-534b-4f64-b90f-597a97a54abc.png",
       "PackagePath": "staticwebassets\\images\\2094493b-534b-4f64-b90f-597a97a54abc.png"
+    },
+    {
+      "Id": "D:\\VSCProjects\\SRC\\RecipeRhapsodyAPI\\wwwroot\\images\\272ed87c-6c4e-4a33-929f-4961bd24edc6.PNG",
+      "PackagePath": "staticwebassets\\images\\272ed87c-6c4e-4a33-929f-4961bd24edc6.PNG"
+    },
+    {
+      "Id": "D:\\VSCProjects\\SRC\\RecipeRhapsodyAPI\\wwwroot\\images\\39ca0e9e-fa53-4526-b906-69763590bd42.PNG",
+      "PackagePath": "staticwebassets\\images\\39ca0e9e-fa53-4526-b906-69763590bd42.PNG"
+    },
+    {
+      "Id": "D:\\VSCProjects\\SRC\\RecipeRhapsodyAPI\\wwwroot\\images\\5f38fc20-3dc6-46bc-ac1d-8e00f0bf9013.png",
+      "PackagePath": "staticwebassets\\images\\5f38fc20-3dc6-46bc-ac1d-8e00f0bf9013.png"
+    },
+    {
+      "Id": "D:\\VSCProjects\\SRC\\RecipeRhapsodyAPI\\wwwroot\\images\\6b5f653c-77dc-45fb-a850-8796d978bbbf.PNG",
+      "PackagePath": "staticwebassets\\images\\6b5f653c-77dc-45fb-a850-8796d978bbbf.PNG"
+    },
+    {
+      "Id": "D:\\VSCProjects\\SRC\\RecipeRhapsodyAPI\\wwwroot\\images\\b0c34122-24e6-4651-91e0-ce44401f383b.PNG",
+      "PackagePath": "staticwebassets\\images\\b0c34122-24e6-4651-91e0-ce44401f383b.PNG"
+    },
+    {
+      "Id": "D:\\VSCProjects\\SRC\\RecipeRhapsodyAPI\\wwwroot\\images\\b0fea629-cc5a-4fa4-bbd1-90c7a46fce2c.PNG",
+      "PackagePath": "staticwebassets\\images\\b0fea629-cc5a-4fa4-bbd1-90c7a46fce2c.PNG"
+    },
+    {
+      "Id": "D:\\VSCProjects\\SRC\\RecipeRhapsodyAPI\\wwwroot\\images\\d8fd4356-8cb1-4e0c-bb0d-def86634c12d.PNG",
+      "PackagePath": "staticwebassets\\images\\d8fd4356-8cb1-4e0c-bb0d-def86634c12d.PNG"
+    },
+    {
+      "Id": "D:\\VSCProjects\\SRC\\RecipeRhapsodyAPI\\wwwroot\\images\\eb2f73c4-f947-4882-857c-e6c91e5cd3fc.PNG",
+      "PackagePath": "staticwebassets\\images\\eb2f73c4-f947-4882-857c-e6c91e5cd3fc.PNG"
+    },
+    {
+      "Id": "D:\\VSCProjects\\SRC\\RecipeRhapsodyAPI\\wwwroot\\images\\f240ee2f-9201-4498-adfc-15011bf15fa9.png",
+      "PackagePath": "staticwebassets\\images\\f240ee2f-9201-4498-adfc-15011bf15fa9.png"
     },
     {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.RecipeRhapsodyAPI.Microsoft.AspNetCore.StaticWebAssets.props",

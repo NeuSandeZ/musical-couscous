@@ -143,3 +143,11 @@ D:\VSCProjects\SRC\RecipeRhapsodyAPI\bin\Debug\net8.0\runtimes\win\lib\net6.0\Sy
 D:\VSCProjects\SRC\RecipeRhapsodyAPI\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 D:\VSCProjects\SRC\RecipeRhapsodyAPI\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
 d:\VSCProjects\SRC\RecipeRhapsodyAPI\bin\Debug\net8.0\RecipeRhapsodyAPI.staticwebassets.runtime.json
+D:\VSCProjects\SRC\RecipeRhapsodyAPI\bin\Debug\net8.0\RecipeRhapsody.Application.dll
+D:\VSCProjects\SRC\RecipeRhapsodyAPI\bin\Debug\net8.0\RecipeRhapsody.Domain.dll
+D:\VSCProjects\SRC\RecipeRhapsodyAPI\bin\Debug\net8.0\RecipeRhapsody.Application.pdb
+D:\VSCProjects\SRC\RecipeRhapsodyAPI\bin\Debug\net8.0\RecipeRhapsody.Domain.pdb
+D:\VSCProjects\SRC\RecipeRhapsodyAPI\bin\Debug\net8.0\Microsoft.AspNetCore.Authorization.dll
+D:\VSCProjects\SRC\RecipeRhapsodyAPI\bin\Debug\net8.0\Microsoft.AspNetCore.Metadata.dll
+D:\VSCProjects\SRC\RecipeRhapsodyAPI\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+D:\VSCProjects\SRC\RecipeRhapsodyAPI\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "G1/VYx6Ozc+n6IohqOnJ704rWl3vrIZO0gO7Z8906m8=",
+  "Hash": "TjEVuyUK55/aXoZkGhztofESHe/nB04Dr49/DQuJTms=",
   "Source": "RecipeRhapsodyAPI",
   "BasePath": "_content/RecipeRhapsodyAPI",
   "Mode": "Default",
@@ -10,30 +10,10 @@
     {
       "Name": "RecipeRhapsodyAPI\\wwwroot",
       "Source": "RecipeRhapsodyAPI",
-      "ContentRoot": "D:\\VSCProjects\\SRC\\RecipeRhapsodyAPI\\wwwroot\\",
+      "ContentRoot": "d:\\VSCProjects\\SRC\\RecipeRhapsodyAPI\\wwwroot\\",
       "BasePath": "_content/RecipeRhapsodyAPI",
       "Pattern": "**"
     }
   ],
-  "Assets": [
-    {
-      "Identity": "D:\\VSCProjects\\SRC\\RecipeRhapsodyAPI\\wwwroot\\images\\2094493b-534b-4f64-b90f-597a97a54abc.png",
-      "SourceId": "RecipeRhapsodyAPI",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\VSCProjects\\SRC\\RecipeRhapsodyAPI\\wwwroot\\",
-      "BasePath": "_content/RecipeRhapsodyAPI",
-      "RelativePath": "images/2094493b-534b-4f64-b90f-597a97a54abc.png",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\2094493b-534b-4f64-b90f-597a97a54abc.png"
-    }
-  ]
+  "Assets": []
 }
