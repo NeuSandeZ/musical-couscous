@@ -3,7 +3,7 @@
 namespace RecipeRhapsody.Application.Authorization;
 
 
-public enum ResourceOperation
+internal enum ResourceOperation
 {
     Create,
     Read,
@@ -11,7 +11,7 @@ public enum ResourceOperation
     Delete,
 }
 
-public class ResourceOperationRequirement : IAuthorizationRequirement
+internal sealed class ResourceOperationRequirement : IAuthorizationRequirement
 {
     public ResourceOperation ResourceOperation { get; set; }
 

@@ -20,17 +20,17 @@ public static class ServiceCollectionExtension
         IConfiguration configuration)
     {
         services.AddDbContext<RecipeContext>(options => options.UseSqlServer(configuration.GetConnectionString("RecipeRhapsody")));
+
         services.AddScoped<IRecipeService, RecipeService>();
         services.AddScoped<IRecipeMapper, RecipeMapper>();
+        services.AddScoped<IUserContextService, UserContextService>();
         services.AddScoped<IRecipeServiceRepository, RecipeServiceRepository>();
         
        services.AddScoped<IAuthorizationHandler, ResourceOperationRequirementHandler>();
        
        services.AddExceptionHandler<AppExceptionHandler>();
-       
        services.AddIdentityApiEndpoints<ApplicationUser>()
            .AddEntityFrameworkStores<RecipeContext>();
-       
        services.AddAuthorization();
     }
 }

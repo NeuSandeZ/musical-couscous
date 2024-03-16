@@ -1,9 +1,9 @@
-﻿using RecipeRhapsody.Application.RecipeDtos;
+﻿using RecipeRhapsody.Application.Dtos.RecipeDtos;
 using RecipeRhapsody.Domain.Entities;
 
 namespace RecipeRhapsody.Application.Mappings;
 
-public sealed class RecipeMapper : IRecipeMapper
+internal sealed class RecipeMapper : IRecipeMapper
 {
     public Recipe MapToRecipe(RecipeDto recipeDto) =>
         new Recipe()

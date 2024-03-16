@@ -1,6 +1,6 @@
 ﻿namespace RecipeRhapsody.Application.Exceptions;
 
-public class BadRequestException : Exception
+internal sealed class BadRequestException : Exception
 {
     public BadRequestException(string message)
         : base(message) { }

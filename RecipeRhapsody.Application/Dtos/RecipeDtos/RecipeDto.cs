@@ -1,4 +1,4 @@
-namespace RecipeRhapsody.Application.RecipeDtos;
+namespace RecipeRhapsody.Application.Dtos.RecipeDtos;
 
 
 public sealed record RecipeDto

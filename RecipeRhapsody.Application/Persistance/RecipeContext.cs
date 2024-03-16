@@ -4,7 +4,7 @@ using RecipeRhapsody.Domain.Entities;
 
 namespace RecipeRhapsody.Application.Persistance;
 
-public class RecipeContext : IdentityDbContext<ApplicationUser>
+public sealed class RecipeContext : IdentityDbContext<ApplicationUser>
 {
     public RecipeContext(DbContextOptions<RecipeContext> options) : base(options) { }
 

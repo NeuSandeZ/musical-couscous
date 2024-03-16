@@ -1,15 +1,15 @@
 using Microsoft.AspNetCore.Http;
-using RecipeRhapsody.Application.RecipeDtos;
+using RecipeRhapsody.Application.Dtos.RecipeDtos;
 using RecipeRhapsody.Application.SearchQueries;
 
 namespace RecipeRhapsody.Application.IServices;
 
 public interface IRecipeService
 {
-    Task<object> AddRecipe(RecipeDto recipeDto);
-    Task<object> AddImageToRecipe(IFormFile file);
-    Task<List<RecipeListingDto>> GetRecipes(RecipeQuery query);
+    Task<int> AddRecipe(RecipeDto recipeDto);
+    Task<string> AddImageToRecipe(IFormFile file);
+    Task<IEnumerable<RecipeListingDto>> GetRecipes(RecipeQuery query);
     Task<RecipeDto> GetRecipe(int id);
-    Task<object> PatchRecipe(RecipeDto recipeDto);
+    Task PatchRecipe(RecipeDto recipeDto);
     Task DeleteRecipe(int id);
 }

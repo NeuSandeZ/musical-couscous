@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace RecipeRhapsody.Application.Exceptions;
 
-public class AppExceptionHandler : IExceptionHandler
+internal sealed class AppExceptionHandler : IExceptionHandler
 {
     public async ValueTask<bool> TryHandleAsync(
         HttpContext httpContext,

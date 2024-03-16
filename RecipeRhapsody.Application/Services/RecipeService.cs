@@ -1,4 +1,3 @@
-using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -7,46 +6,46 @@ using RecipeRhapsody.Application.Authorization;
 using RecipeRhapsody.Application.Exceptions;
 using RecipeRhapsody.Application.IServices;
 using RecipeRhapsody.Application.Mappings;
-using RecipeRhapsody.Application.RecipeDtos;
+using RecipeRhapsody.Application.Dtos.RecipeDtos;
 using RecipeRhapsody.Application.SearchQueries;
 using RecipeRhapsody.Domain.Entities;
 using RecipeRhapsody.Domain.Interfaces;
 
 namespace RecipeRhapsody.Application.Services;
 
-public sealed class RecipeService(
+internal sealed class RecipeService(
     IRecipeServiceRepository recipeServiceRepository,
     IWebHostEnvironment webHostEnvironment,
     IRecipeMapper recipeMapper,
-    IHttpContextAccessor httpContextAccessor,
+    IUserContextService userContextService,
     IAuthorizationService authorizationService
 ) : IRecipeService
 {
     private readonly IRecipeServiceRepository _recipeServiceRepository = recipeServiceRepository;
     private readonly IWebHostEnvironment _webHostEnvironment = webHostEnvironment;
     private readonly IRecipeMapper _recipeMapper = recipeMapper;
-    private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
+    private readonly IUserContextService _userContextService = userContextService;
     private readonly IAuthorizationService _authorizationService = authorizationService;
 
-    public async Task<object> AddRecipe(RecipeDto recipeDto)
+    public async Task<int> AddRecipe(RecipeDto recipeDto)
     {
-        var user = _httpContextAccessor?.HttpContext?.User;
+        var user = _userContextService.User;
 
         if (user is null || !user.Identity.IsAuthenticated)
         {
             throw new ForbidException("Forbidden action!");
         }
 
-        var id = user.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)!.Value;
+        var userId = _userContextService.GetUserId.ToString();
         var recipe = _recipeMapper.MapToRecipe(recipeDto);
-        recipe.ApplicationUserId = id;
+        recipe.ApplicationUserId = userId!;
         
         await _recipeServiceRepository.AddRecipe(recipe);
 
-        return new { Created = true };
+        return recipe.Id;
     }
 
-    public async Task<object> AddImageToRecipe(IFormFile imageFile)
+    public async Task<string> AddImageToRecipe(IFormFile imageFile)
     {
         if (imageFile is null || imageFile.Length == 0)
         {
@@ -69,24 +68,24 @@ public sealed class RecipeService(
 
         string imageUrl = Path.Combine("/images/", fileName);
 
-        return new { imageUrl };
+        return imageUrl;
     }
 
-    public async Task<List<RecipeListingDto>> GetRecipes(RecipeQuery query)
+    public async Task<IEnumerable<RecipeListingDto>> GetRecipes(RecipeQuery query)
     {
         var baseQuery = _recipeServiceRepository.GetBaseQuery();
 
         if (query.UserRecipes is true)
         {
-            var user = _httpContextAccessor?.HttpContext?.User;
+            var user = _userContextService.User;
 
             if (user is null || !user.Identity.IsAuthenticated)
             {
                 throw new ForbidException("Forbidden action!");
             }
 
-            var id = user.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)!.Value;
-            baseQuery = baseQuery.Where(a => a.ApplicationUserId == id);
+            var userId = _userContextService.GetUserId.ToString();
+            baseQuery = baseQuery.Where(a => a.ApplicationUserId == userId);
         }
 
         return await baseQuery
@@ -108,13 +107,13 @@ public sealed class RecipeService(
         return _recipeMapper.MapToRecipeDto(recipe);
     }
 
-    public async Task<object> PatchRecipe(RecipeDto recipeDto)
+    public async Task PatchRecipe(RecipeDto recipeDto)
     {
         var recipe = await _recipeServiceRepository.GetRecipeWithTracking(recipeDto.Id)
             ?? throw new NotFoundException("Recipe not found!");
 
         var authorizationResult = await _authorizationService.AuthorizeAsync(
-            _httpContextAccessor.HttpContext.User,
+            _userContextService.User,
             recipe,
             new ResourceOperationRequirement(ResourceOperation.Update)
         );
@@ -145,8 +144,6 @@ public sealed class RecipeService(
             .ToList();
 
         await _recipeServiceRepository.Commit();
-
-        return new { Updated = true };
     }
 
     public async Task DeleteRecipe(int id)
@@ -155,7 +152,7 @@ public sealed class RecipeService(
             ?? throw new NotFoundException("Recipe not found!");
         
         var authorizationResult = await _authorizationService.AuthorizeAsync(
-            _httpContextAccessor.HttpContext.User,
+            _userContextService.User,
             recipe,
             new ResourceOperationRequirement(ResourceOperation.Delete)
         );

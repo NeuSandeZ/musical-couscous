@@ -4,7 +4,7 @@ using RecipeRhapsody.Domain.Entities;
 
 namespace RecipeRhapsody.Application.Authorization;
 
-public class ResourceOperationRequirementHandler
+internal sealed class ResourceOperationRequirementHandler
     : AuthorizationHandler<ResourceOperationRequirement, Recipe>
 {
     protected override Task HandleRequirementAsync(

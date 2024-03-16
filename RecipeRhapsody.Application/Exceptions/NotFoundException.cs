@@ -1,6 +1,6 @@
 ﻿namespace RecipeRhapsody.Application.Exceptions;
 
-public class NotFoundException : Exception
+internal sealed class NotFoundException : Exception
 {
     public NotFoundException(string message)
         : base(message) { }
