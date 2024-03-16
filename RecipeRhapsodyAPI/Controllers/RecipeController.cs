@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RecipeRhapsody.Application.Dtos.RecipeDtos;
 using RecipeRhapsody.Application.IServices;
-using RecipeRhapsody.Application.RecipeDtos;
 using RecipeRhapsody.Application.SearchQueries;
 
 namespace RecipeRhapsodyAPI;
@@ -19,40 +19,48 @@ public sealed class RecipeController : ControllerBase
     }
 
     [HttpPost("add-recipe")]
-    public async Task<object> AddRecipe([FromBody] RecipeDto recipeDto)
+    public async Task<IActionResult> AddRecipe([FromBody] RecipeDto recipeDto)
     {
-        return await _recipeService.AddRecipe(recipeDto);
+        var id = await _recipeService.AddRecipe(recipeDto);
+        return Created($"/recipe/{id}", null);
     }
 
     [HttpPost("image")]
-    public async Task<object> AddImageToRecipe([FromForm] IFormFile imageFile)
+    public async Task<IActionResult> AddImageToRecipe([FromForm] IFormFile imageFile)
     {
-        return await _recipeService.AddImageToRecipe(imageFile);
+        var imageUrl = await _recipeService.AddImageToRecipe(imageFile);
+        return Ok(new { imageUrl });
     }
 
     [AllowAnonymous]
     [HttpGet("fetchRecipes")]
-    public async Task<List<RecipeListingDto>> GetRecipes([FromQuery] RecipeQuery query)
+    public async Task<ActionResult<IEnumerable<RecipeListingDto>>> GetRecipes(
+        [FromQuery] RecipeQuery query
+    )
     {
-        return await _recipeService.GetRecipes(query);
+        var recipes = await _recipeService.GetRecipes(query);
+        return Ok(recipes);
     }
 
     [AllowAnonymous]
     [HttpGet("{id}")]
-    public async Task<RecipeDto> GetRecipe([FromRoute] int id)
+    public async Task<ActionResult<RecipeDto>> GetRecipe([FromRoute] int id)
     {
-        return await _recipeService.GetRecipe(id);
+        var recipe = await _recipeService.GetRecipe(id);
+        return Ok(recipe);
     }
 
     [HttpPatch("patch")]
-    public async Task<object> PatchRecipe([FromBody] RecipeDto recipeDto)
+    public async Task<IActionResult> PatchRecipe([FromBody] RecipeDto recipeDto)
     {
-        return await _recipeService.PatchRecipe(recipeDto);
+        await _recipeService.PatchRecipe(recipeDto);
+        return Ok();
     }
 
     [HttpDelete("{id}/delete")]
-    public async Task DeleteRecipe([FromRoute] int id)
+    public async Task<IActionResult> DeleteRecipe([FromRoute] int id)
     {
         await _recipeService.DeleteRecipe(id);
+        return NoContent();
     }
 }

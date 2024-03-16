@@ -239,7 +239,7 @@ namespace RecipeRhapsody.Application.Migrations
 
                     b.HasIndex("RecipeId");
 
-                    b.ToTable("Ingredients");
+                    b.ToTable("Ingredients", (string)null);
                 });
 
             modelBuilder.Entity("RecipeRhapsody.Domain.Entities.PrepTime", b =>
@@ -268,7 +268,7 @@ namespace RecipeRhapsody.Application.Migrations
 
                     b.HasIndex("RecipeId");
 
-                    b.ToTable("PrepTimes");
+                    b.ToTable("PrepTimes", (string)null);
                 });
 
             modelBuilder.Entity("RecipeRhapsody.Domain.Entities.Recipe", b =>
@@ -307,7 +307,7 @@ namespace RecipeRhapsody.Application.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.ToTable("Recipes");
+                    b.ToTable("Recipes", (string)null);
                 });
 
             modelBuilder.Entity("RecipeRhapsody.Domain.Entities.Step", b =>
@@ -329,7 +329,7 @@ namespace RecipeRhapsody.Application.Migrations
 
                     b.HasIndex("RecipeId");
 
-                    b.ToTable("Steps");
+                    b.ToTable("Steps", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

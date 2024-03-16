@@ -11,7 +11,7 @@ public sealed record RecipeDto
     public string Description { get; set; }
     public int Servings { get; set; }
     public string ServingsYield { get; set; }
-    public List<string> Ingredients { get; set; } = [];
-    public List<string> Steps { get; set; } = [];
-    public List<PrepTimeDto> PrepTimes { get; set; } = [];
+    public IEnumerable<string> Ingredients { get; set; } = [];
+    public IEnumerable<string> Steps { get; set; } = [];
+    public IEnumerable<PrepTimeDto> PrepTimes { get; set; } = [];
 }

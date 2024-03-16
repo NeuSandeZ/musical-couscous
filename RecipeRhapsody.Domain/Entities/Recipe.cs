@@ -13,7 +13,7 @@ public class Recipe
     public int Servings { get; set; }
     public string? ServingsYield { get; set; }
 
-    public List<Ingredient> Ingredients { get; set; }
-    public List<Step> Steps { get; set; }
-    public List<PrepTime> PrepTimes { get; set; }
+    public IEnumerable<Ingredient> Ingredients { get; set; }
+    public IEnumerable<Step> Steps { get; set; }
+    public IEnumerable<PrepTime> PrepTimes { get; set; }
 }
