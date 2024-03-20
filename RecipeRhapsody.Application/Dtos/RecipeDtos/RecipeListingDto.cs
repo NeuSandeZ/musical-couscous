@@ -1,9 +1,9 @@
 namespace RecipeRhapsody.Application.Dtos.RecipeDtos;
 
-public sealed record RecipeListingDto
+public readonly record struct RecipeListingDto
 {
-    public int Id { get; set; }
-    public string? ImageUrl { get; set; }
-    public string Title { get; set; }
-    public string Description { get; set; }
+    public int Id { get; init; }
+    public string? ImageUrl { get; init; }
+    public string Title { get; init; }
+    public string Description { get; init; }
 }

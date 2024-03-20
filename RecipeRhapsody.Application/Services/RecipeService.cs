@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using RecipeRhapsody.Application.Authorization;
+using RecipeRhapsody.Application.Dtos.RecipeDtos;
 using RecipeRhapsody.Application.Exceptions;
 using RecipeRhapsody.Application.IServices;
 using RecipeRhapsody.Application.Mappings;
-using RecipeRhapsody.Application.Dtos.RecipeDtos;
 using RecipeRhapsody.Application.SearchQueries;
 using RecipeRhapsody.Domain.Entities;
 using RecipeRhapsody.Domain.Interfaces;
@@ -29,17 +29,10 @@ internal sealed class RecipeService(
 
     public async Task<int> AddRecipe(RecipeDto recipeDto)
     {
-        var user = _userContextService.User;
-
-        if (user is null || !user.Identity.IsAuthenticated)
-        {
-            throw new ForbidException("Forbidden action!");
-        }
-
         var userId = _userContextService.GetUserId.ToString();
         var recipe = _recipeMapper.MapToRecipe(recipeDto);
         recipe.ApplicationUserId = userId!;
-        
+
         await _recipeServiceRepository.AddRecipe(recipe);
 
         return recipe.Id;
@@ -71,7 +64,7 @@ internal sealed class RecipeService(
         return imageUrl;
     }
 
-    public async Task<IEnumerable<RecipeListingDto>> GetRecipes(RecipeQuery query)
+    public async Task<PagedResult<RecipeListingDto>> GetRecipes(RecipeQuery query)
     {
         var baseQuery = _recipeServiceRepository.GetBaseQuery();
 
@@ -88,7 +81,14 @@ internal sealed class RecipeService(
             baseQuery = baseQuery.Where(a => a.ApplicationUserId == userId);
         }
 
-        return await baseQuery
+        var pageSize = query.PageSize ??= 12;
+        var skipCount = query.SkipCount;
+
+        var totalRecords = await baseQuery.CountAsync();
+
+        baseQuery = baseQuery.Skip(skipCount).Take(pageSize);
+
+        var collection = await baseQuery
             .Select(r => new RecipeListingDto
             {
                 Id = r.Id,
@@ -97,11 +97,14 @@ internal sealed class RecipeService(
                 Description = r.Description
             })
             .ToListAsync();
+
+        return new PagedResult<RecipeListingDto>(collection, totalRecords);
     }
 
     public async Task<RecipeDto> GetRecipe(int id)
     {
-        var recipe = await _recipeServiceRepository.GetRecipe(id)
+        var recipe =
+            await _recipeServiceRepository.GetRecipe(id)
             ?? throw new NotFoundException("Recipe not found!");
 
         return _recipeMapper.MapToRecipeDto(recipe);
@@ -109,7 +112,8 @@ internal sealed class RecipeService(
 
     public async Task PatchRecipe(RecipeDto recipeDto)
     {
-        var recipe = await _recipeServiceRepository.GetRecipeWithTracking(recipeDto.Id)
+        var recipe =
+            await _recipeServiceRepository.GetRecipeWithTracking(recipeDto.Id)
             ?? throw new NotFoundException("Recipe not found!");
 
         var authorizationResult = await _authorizationService.AuthorizeAsync(
@@ -117,19 +121,19 @@ internal sealed class RecipeService(
             recipe,
             new ResourceOperationRequirement(ResourceOperation.Update)
         );
-        
+
         if (!authorizationResult.Succeeded)
         {
             throw new ForbidException("Forbidden action!");
         }
-        
+
         recipe.Title = recipeDto.Title;
         recipe.Description = recipeDto.Description;
         recipe.Servings = recipeDto.Servings;
         recipe.ServingsYield = recipeDto.ServingsYield;
-        
+
         recipe.UpdatedOn = DateTime.UtcNow;
-        
+
         recipe.Ingredients = recipeDto
             .Ingredients.Select(ingredient => new Ingredient { Name = ingredient })
             .ToList();
@@ -143,29 +147,30 @@ internal sealed class RecipeService(
             })
             .ToList();
 
-        await _recipeServiceRepository.Commit();
+        await _recipeServiceRepository.Update(recipe);
     }
 
     public async Task DeleteRecipe(int id)
     {
-        var recipe = await _recipeServiceRepository.GetRecipeWithoutIncludes(id)
+        var recipe =
+            await _recipeServiceRepository.GetRecipeWithoutIncludes(id)
             ?? throw new NotFoundException("Recipe not found!");
-        
+
         var authorizationResult = await _authorizationService.AuthorizeAsync(
             _userContextService.User,
             recipe,
             new ResourceOperationRequirement(ResourceOperation.Delete)
         );
-        
+
         if (!authorizationResult.Succeeded)
         {
             throw new ForbidException("Forbidden action!");
         }
-        
+
         if (!string.IsNullOrEmpty(recipe.ImageUrl))
         {
             var photoPath = _webHostEnvironment.WebRootPath + recipe.ImageUrl.Replace("/", "\\");
-        
+
             if (File.Exists(photoPath))
             {
                 File.Delete(photoPath);

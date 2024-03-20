@@ -1,11 +1,10 @@
 namespace RecipeRhapsody.Application.Dtos.RecipeDtos;
 
-
-public sealed record PrepTimeDto
+public readonly record struct PrepTimeDto
 {
-    public string Title { get; set; }
+    public string Title { get; init; }
 
-    public int Time { get; set; }
+    public int Time { get; init; }
 
-    public string Unit { get; set; }
+    public string Unit { get; init; }
 }
