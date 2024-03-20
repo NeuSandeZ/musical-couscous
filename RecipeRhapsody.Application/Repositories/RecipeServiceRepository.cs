@@ -17,20 +17,21 @@ internal class RecipeServiceRepository(RecipeContext recipeContext) : IRecipeSer
 
     public IQueryable<Recipe> GetBaseQuery() => _recipeContext.Recipes.AsQueryable().AsNoTracking();
 
-    public async Task<Recipe> GetRecipe(int? id) =>
-        await _recipeContext
-            .Recipes.Include(i => i.Ingredients)
-            .Include(s => s.Steps)
-            .Include(p => p.PrepTimes)
-            .AsNoTracking()
-            .FirstOrDefaultAsync(a => a.Id == id);
+    public async Task<Recipe> GetRecipe(int? id, bool withTracking = false)
+    {
+        var recipeQuery = _recipeContext.Recipes;
 
-    public async Task<Recipe> GetRecipeWithTracking(int? id) =>
-        await _recipeContext
-            .Recipes.Include(i => i.Ingredients)
+        if (!withTracking)
+        {
+            recipeQuery.AsNoTracking();
+        }
+
+        return await recipeQuery
+            .Include(i => i.Ingredients)
             .Include(s => s.Steps)
             .Include(p => p.PrepTimes)
             .FirstOrDefaultAsync(a => a.Id == id);
+    }
 
     public async Task<Recipe> GetRecipeWithoutIncludes(int id) =>
         await _recipeContext.Recipes.FirstOrDefaultAsync(a => a.Id == id);

@@ -113,7 +113,7 @@ internal sealed class RecipeService(
     public async Task PatchRecipe(RecipeDto recipeDto)
     {
         var recipe =
-            await _recipeServiceRepository.GetRecipeWithTracking(recipeDto.Id)
+            await _recipeServiceRepository.GetRecipe(recipeDto.Id, true)
             ?? throw new NotFoundException("Recipe not found!");
 
         var authorizationResult = await _authorizationService.AuthorizeAsync(
