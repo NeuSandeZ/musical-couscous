@@ -1,29 +1,35 @@
 <div class="grid-container">
-  <div>
-    <div style="background-color: red; height: 300px">
-      <p>Content for first column, row 1</p>
+  <div class="mx-sm-3">
+    <div style="height: 300px; border: 1px solid black">
       <div>
-        <p>cos tam</p>
-        <button class="btn btn-primary" (click)="navigate('my-recipes')">
-          My Recipes
-        </button>
-        <button class="btn btn-primary" (click)="navigate('personal-info')">
+        <button
+          mat-menu-item
+          routerLinkActive="router-active"
+          routerLink="./personal-info"
+        >
           Personal info
-        </button>
-        <button class="btn btn-primary" (click)="navigate('collections')">
-          My collections
         </button>
       </div>
     </div>
-
     <hr />
-    <div style="background-color: aqua; height: 200px">
-      <p>Content for first column, row 2</p>
+    <div style="border: 1px solid black; height: 200px">
+      <button
+        mat-menu-item
+        routerLinkActive="router-active"
+        routerLink="./my-recipes"
+      >
+        My Recipes
+      </button>
+      <button
+        mat-menu-item
+        routerLinkActive="router-active"
+        routerLink="./collections"
+      >
+        My collections
+      </button>
     </div>
   </div>
   <div style="background-color: pink; height: 600px">
     <router-outlet></router-outlet>
   </div>
 </div>
-
-<hr />

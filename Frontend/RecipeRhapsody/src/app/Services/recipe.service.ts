@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@angular/core';
 import { IRecipe } from '../Models/irecipe';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { IRecipeListing } from '../Models/irecipeListing';
 import { BehaviorSubject } from 'rxjs';
+import { IPagedResult } from '../Models/ipagedresult';
 @Injectable({ providedIn: 'root' })
 export class RecipeService {
   // recipes: IRecipeListing[] = [];
@@ -18,11 +18,9 @@ export class RecipeService {
   ) {}
 
   addRecipe(recipe: IRecipe) {
-    return this._httpClient.post<{ created: boolean }>(
-      this.baseUrl + '/recipe/add-recipe',
-      recipe
-    );
-    // this.recipes.push(recipe);
+    return this._httpClient.post(this.baseUrl + '/recipe/add-recipe', recipe, {
+      observe: 'response',
+    });
   }
 
   addPhoto(formData: FormData) {
@@ -32,17 +30,21 @@ export class RecipeService {
     );
   }
 
+  addToFavourites(recipeId: number) {}
+
   deleteRecipe(recipeId: number) {
     return this._httpClient.delete(
-      this.baseUrl + '/recipe/' + recipeId + '/delete'
+      this.baseUrl + '/recipe/' + recipeId + '/delete',
+      {
+        observe: 'response',
+      }
     );
   }
 
   patchRecipe(recipe: IRecipe) {
-    return this._httpClient.patch<{ updated: boolean }>(
-      this.baseUrl + '/recipe/patch',
-      recipe
-    );
+    return this._httpClient.patch(this.baseUrl + '/recipe/patch', recipe, {
+      observe: 'response',
+    });
   }
 
   fetchRecipes(queryParams?: { [key: string]: string | number | boolean }) {
@@ -54,7 +56,7 @@ export class RecipeService {
       });
     }
 
-    return this._httpClient.get<IRecipeListing[]>(
+    return this._httpClient.get<IPagedResult>(
       this.baseUrl + '/recipe/fetchRecipes',
       { params: httpParams }
     );

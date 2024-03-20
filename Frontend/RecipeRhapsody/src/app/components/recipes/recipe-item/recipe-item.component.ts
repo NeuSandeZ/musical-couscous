@@ -4,6 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { IRecipeListing } from '../../../Models/irecipeListing';
+import { RecipeService } from '../../../Services/recipe.service';
 
 @Component({
   selector: 'app-recipe-item',
@@ -15,9 +16,22 @@ import { IRecipeListing } from '../../../Models/irecipeListing';
 export class RecipeItemComponent implements OnInit {
   @Input() recipe!: IRecipeListing;
 
-  constructor(@Inject('BASE_URL') public baseUrl: string) {}
+  constructor(
+    @Inject('BASE_URL') public baseUrl: string,
+    private readonly _recipeService: RecipeService
+  ) {}
 
-  ngOnInit(): void {
-    // this.recipe = this._recipeService.getRecipe(this.index);
+  ngOnInit(): void {}
+
+  addToFavourites(event: MouseEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    this._recipeService.addToFavourites(this.recipe.id);
+
+    //Display dialog after successfull operation
+
+    console.log('Button clicked within <a>');
+    console.log(this.recipe.id);
   }
 }

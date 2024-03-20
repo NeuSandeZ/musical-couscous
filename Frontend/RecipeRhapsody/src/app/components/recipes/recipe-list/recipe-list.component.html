@@ -12,7 +12,7 @@
 } @else {
 <div>
   <div class="row row-cols-1 row-cols-sm-4">
-    @for (recipe of recipes; track $index) {
+    @for (recipe of recipes; track recipe) {
     <div class="col mb-sm-4">
       <app-recipe-item [recipe]="recipe"></app-recipe-item>
     </div>

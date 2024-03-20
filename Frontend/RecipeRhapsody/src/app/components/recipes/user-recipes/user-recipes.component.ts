@@ -9,11 +9,14 @@ import {
   DialogWindowComponent,
 } from '../../shared/dialog-window/dialog-window.component';
 import { ToastrService } from 'ngx-toastr';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-user-recipes',
   standalone: true,
-  imports: [],
+  imports: [MatButtonModule, MatMenuModule, MatIconModule],
   templateUrl: './user-recipes.component.html',
   styleUrl: './user-recipes.component.css',
 })
@@ -34,9 +37,10 @@ export class UserRecipesComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.fetchSub = this._recipeService
+      //TODO apply pagination here or sort it out different way
       .fetchRecipes({ userRecipes: true })
       .subscribe((recipes) => {
-        this.recipes = recipes;
+        this.recipes = recipes.collection;
       });
   }
 

@@ -225,16 +225,13 @@ export class RecipeAddComponent implements OnInit, OnDestroy {
 
     request.subscribe({
       next: (resData) => {
-        console.log('resData :>> ', resData);
-        if (resData.created) {
-          //TODO style the dialog window, need to think about passing dialog config
-          //TODO create separate componenet or make one reusable?
+        if (+resData.status === 201) {
           this.handleSuccess(
             'Successfully created recipe:' + recipe.title,
             '/recipes',
             DialogEnum.Created
           );
-        } else if (resData.updated) {
+        } else if (+resData.status === 200) {
           this.handleSuccess(
             'Successfully updated recipe:' + recipe.title,
             '/account/profile/my-recipes',

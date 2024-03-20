@@ -77,7 +77,7 @@ export class AuthService {
   }
 
   logout() {
-    this._httpClient.post(this.baseUrl + '/account/logout', {}).subscribe();
+    // this._httpClient.post(this.baseUrl + '/account/logout', {}).subscribe();
     this.user.next(null!);
     localStorage.removeItem('userData');
     if (this.tokenExpirationTimer) {
