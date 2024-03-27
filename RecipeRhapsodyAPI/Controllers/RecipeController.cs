@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RecipeRhapsody.Application;
 using RecipeRhapsody.Application.Dtos.RecipeDtos;
 using RecipeRhapsody.Application.IServices;
 using RecipeRhapsody.Application.SearchQueries;
@@ -9,14 +10,9 @@ namespace RecipeRhapsodyAPI;
 [ApiController]
 [Authorize]
 [Route("recipe")]
-public sealed class RecipeController : ControllerBase
+public sealed class RecipeController(IRecipeService recipeService) : ControllerBase
 {
-    private readonly IRecipeService _recipeService;
-
-    public RecipeController(IRecipeService recipeService)
-    {
-        _recipeService = recipeService;
-    }
+    private readonly IRecipeService _recipeService = recipeService;
 
     [HttpPost("add-recipe")]
     public async Task<IActionResult> AddRecipe([FromBody] RecipeDto recipeDto)
@@ -34,7 +30,7 @@ public sealed class RecipeController : ControllerBase
 
     [AllowAnonymous]
     [HttpGet("fetchRecipes")]
-    public async Task<ActionResult<IEnumerable<RecipeListingDto>>> GetRecipes(
+    public async Task<ActionResult<PagedResult<RecipeListingDto>>> GetRecipes(
         [FromQuery] RecipeQuery query
     )
     {
