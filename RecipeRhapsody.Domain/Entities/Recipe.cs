@@ -1,10 +1,10 @@
 namespace RecipeRhapsody.Domain.Entities;
 
-public class Recipe
+public class Recipe : IUserBase
 {
     public int Id { get; set; }
-    public ApplicationUser ApplicationUser { get; set; }
-    public string ApplicationUserId { get; set; }
+    public ApplicationUser User { get; set; }
+    public string UserId { get; set; }
 
     public DateTime? UpdatedOn { get; set; }
     public string? ImageUrl { get; set; }

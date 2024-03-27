@@ -239,7 +239,7 @@ namespace RecipeRhapsody.Application.Migrations
 
                     b.HasIndex("RecipeId");
 
-                    b.ToTable("Ingredients", (string)null);
+                    b.ToTable("Ingredients");
                 });
 
             modelBuilder.Entity("RecipeRhapsody.Domain.Entities.PrepTime", b =>
@@ -268,7 +268,7 @@ namespace RecipeRhapsody.Application.Migrations
 
                     b.HasIndex("RecipeId");
 
-                    b.ToTable("PrepTimes", (string)null);
+                    b.ToTable("PrepTimes");
                 });
 
             modelBuilder.Entity("RecipeRhapsody.Domain.Entities.Recipe", b =>
@@ -278,10 +278,6 @@ namespace RecipeRhapsody.Application.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ApplicationUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -303,11 +299,15 @@ namespace RecipeRhapsody.Application.Migrations
                     b.Property<DateTime?>("UpdatedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("ApplicationUserId");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("Recipes", (string)null);
+                    b.ToTable("Recipes");
                 });
 
             modelBuilder.Entity("RecipeRhapsody.Domain.Entities.Step", b =>
@@ -329,7 +329,31 @@ namespace RecipeRhapsody.Application.Migrations
 
                     b.HasIndex("RecipeId");
 
-                    b.ToTable("Steps", (string)null);
+                    b.ToTable("Steps");
+                });
+
+            modelBuilder.Entity("RecipeRhapsody.Domain.FavoriteRecipe", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("RecipeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RecipeId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("FavoritesRecipes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -407,13 +431,13 @@ namespace RecipeRhapsody.Application.Migrations
 
             modelBuilder.Entity("RecipeRhapsody.Domain.Entities.Recipe", b =>
                 {
-                    b.HasOne("RecipeRhapsody.Domain.Entities.ApplicationUser", "ApplicationUser")
+                    b.HasOne("RecipeRhapsody.Domain.Entities.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("ApplicationUserId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ApplicationUser");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("RecipeRhapsody.Domain.Entities.Step", b =>
@@ -425,6 +449,30 @@ namespace RecipeRhapsody.Application.Migrations
                         .IsRequired();
 
                     b.Navigation("Recipe");
+                });
+
+            modelBuilder.Entity("RecipeRhapsody.Domain.FavoriteRecipe", b =>
+                {
+                    b.HasOne("RecipeRhapsody.Domain.Entities.Recipe", "Recipe")
+                        .WithMany()
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("RecipeRhapsody.Domain.Entities.ApplicationUser", "User")
+                        .WithMany("FavoriteRecipes")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Recipe");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("RecipeRhapsody.Domain.Entities.ApplicationUser", b =>
+                {
+                    b.Navigation("FavoriteRecipes");
                 });
 
             modelBuilder.Entity("RecipeRhapsody.Domain.Entities.Recipe", b =>

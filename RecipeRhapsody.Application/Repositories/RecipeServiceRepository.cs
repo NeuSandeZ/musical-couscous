@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using RecipeRhapsody.Application.Persistance;
+using RecipeRhapsody.Domain;
 using RecipeRhapsody.Domain.Entities;
 using RecipeRhapsody.Domain.Interfaces;
 
@@ -47,4 +48,7 @@ internal class RecipeServiceRepository(RecipeContext recipeContext) : IRecipeSer
         _recipeContext.Recipes.Update(recipe);
         await _recipeContext.SaveChangesAsync();
     }
+
+    public IEnumerable<FavoriteRecipe> GetFavoriteRecipes(string userId) =>
+        _recipeContext.FavoritesRecipes.Where(fr => fr.UserId == userId);
 }

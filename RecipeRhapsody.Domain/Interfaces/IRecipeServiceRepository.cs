@@ -10,4 +10,5 @@ public interface IRecipeServiceRepository
     Task<Recipe> GetRecipeWithoutIncludes(int id);
     Task Delete(Recipe recipe);
     Task Update(Recipe recipe);
+    IEnumerable<FavoriteRecipe> GetFavoriteRecipes(string userId);
 }

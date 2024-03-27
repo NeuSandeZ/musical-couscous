@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "d:\\VSCProjects\\SRC\\RecipeRhapsody.Application\\RecipeRhapsody.Application.csproj": {}
+    "D:\\VSCProjects\\SRC\\RecipeRhapsody.Application\\RecipeRhapsody.Application.csproj": {}
   },
   "projects": {
-    "d:\\VSCProjects\\SRC\\RecipeRhapsody.Application\\RecipeRhapsody.Application.csproj": {
+    "D:\\VSCProjects\\SRC\\RecipeRhapsody.Application\\RecipeRhapsody.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "d:\\VSCProjects\\SRC\\RecipeRhapsody.Application\\RecipeRhapsody.Application.csproj",
+        "projectUniqueName": "D:\\VSCProjects\\SRC\\RecipeRhapsody.Application\\RecipeRhapsody.Application.csproj",
         "projectName": "RecipeRhapsody.Application",
-        "projectPath": "d:\\VSCProjects\\SRC\\RecipeRhapsody.Application\\RecipeRhapsody.Application.csproj",
+        "projectPath": "D:\\VSCProjects\\SRC\\RecipeRhapsody.Application\\RecipeRhapsody.Application.csproj",
         "packagesPath": "C:\\Users\\smile\\.nuget\\packages\\",
-        "outputPath": "d:\\VSCProjects\\SRC\\RecipeRhapsody.Application\\obj\\",
+        "outputPath": "D:\\VSCProjects\\SRC\\RecipeRhapsody.Application\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "D:\\VisualStudioSDK\\NuGetPackages"
@@ -33,8 +33,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "d:\\VSCProjects\\SRC\\RecipeRhapsody.Domain\\RecipeRhapsody.Domain.csproj": {
-                "projectPath": "d:\\VSCProjects\\SRC\\RecipeRhapsody.Domain\\RecipeRhapsody.Domain.csproj"
+              "D:\\VSCProjects\\SRC\\RecipeRhapsody.Domain\\RecipeRhapsody.Domain.csproj": {
+                "projectPath": "D:\\VSCProjects\\SRC\\RecipeRhapsody.Domain\\RecipeRhapsody.Domain.csproj"
               }
             }
           }
@@ -121,14 +121,14 @@
         }
       }
     },
-    "d:\\VSCProjects\\SRC\\RecipeRhapsody.Domain\\RecipeRhapsody.Domain.csproj": {
+    "D:\\VSCProjects\\SRC\\RecipeRhapsody.Domain\\RecipeRhapsody.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "d:\\VSCProjects\\SRC\\RecipeRhapsody.Domain\\RecipeRhapsody.Domain.csproj",
+        "projectUniqueName": "D:\\VSCProjects\\SRC\\RecipeRhapsody.Domain\\RecipeRhapsody.Domain.csproj",
         "projectName": "RecipeRhapsody.Domain",
-        "projectPath": "d:\\VSCProjects\\SRC\\RecipeRhapsody.Domain\\RecipeRhapsody.Domain.csproj",
+        "projectPath": "D:\\VSCProjects\\SRC\\RecipeRhapsody.Domain\\RecipeRhapsody.Domain.csproj",
         "packagesPath": "C:\\Users\\smile\\.nuget\\packages\\",
-        "outputPath": "d:\\VSCProjects\\SRC\\RecipeRhapsody.Domain\\obj\\",
+        "outputPath": "D:\\VSCProjects\\SRC\\RecipeRhapsody.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "D:\\VisualStudioSDK\\NuGetPackages"

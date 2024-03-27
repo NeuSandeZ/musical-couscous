@@ -4,6 +4,6 @@ namespace RecipeRhapsody.Application;
 
 internal interface IUserContextService
 {
-    ClaimsPrincipal User {get; }
-    Guid? GetUserId {get;}
+    ClaimsPrincipal User { get; }
+    string? GetUserId { get; }
 }

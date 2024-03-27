@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "q2wz1jKEFZQUVlcngV1yk4fxje4TCkGaKMWw+JSTCLMw1sOjnyijWOhhPAIa87s8iU1nTaFwFYc3Vrx3SGNG2A==",
+  "dgSpecHash": "IyjYm0Y0ehnKHPFkrfEYOfdL1BfDQSSffqjEqZiAuezJ5emhslcUBDlB7+4lyMS4rLB1YX12mFS5qlMuBJmmAw==",
   "success": true,
-  "projectFilePath": "d:\\VSCProjects\\SRC\\RecipeRhapsody.Application\\RecipeRhapsody.Application.csproj",
+  "projectFilePath": "D:\\VSCProjects\\SRC\\RecipeRhapsody.Application\\RecipeRhapsody.Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\smile\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\smile\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",

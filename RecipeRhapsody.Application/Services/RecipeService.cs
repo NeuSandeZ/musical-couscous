@@ -29,9 +29,9 @@ internal sealed class RecipeService(
 
     public async Task<int> AddRecipe(RecipeDto recipeDto)
     {
-        var userId = _userContextService.GetUserId.ToString();
+        var userId = _userContextService.GetUserId;
         var recipe = _recipeMapper.MapToRecipe(recipeDto);
-        recipe.ApplicationUserId = userId!;
+        recipe.UserId = userId!;
 
         await _recipeServiceRepository.AddRecipe(recipe);
 
@@ -66,19 +66,17 @@ internal sealed class RecipeService(
 
     public async Task<PagedResult<RecipeListingDto>> GetRecipes(RecipeQuery query)
     {
+        var userId = _userContextService.GetUserId;
         var baseQuery = _recipeServiceRepository.GetBaseQuery();
 
         if (query.UserRecipes is true)
         {
-            var user = _userContextService.User;
-
-            if (user is null || !user.Identity.IsAuthenticated)
+            if (userId is null)
             {
                 throw new ForbidException("Forbidden action!");
             }
 
-            var userId = _userContextService.GetUserId.ToString();
-            baseQuery = baseQuery.Where(a => a.ApplicationUserId == userId);
+            baseQuery = baseQuery.Where(a => a.UserId == userId);
         }
 
         var pageSize = query.PageSize ??= 12;
@@ -87,6 +85,28 @@ internal sealed class RecipeService(
         var totalRecords = await baseQuery.CountAsync();
 
         baseQuery = baseQuery.Skip(skipCount).Take(pageSize);
+
+        if (userId is not null && query.WithFavorites)
+        {
+            var withFavorites = await baseQuery
+                .GroupJoin(
+                    _recipeServiceRepository.GetFavoriteRecipes(userId),
+                    r => r.Id,
+                    fr => fr.RecipeId,
+                    (r, fr) => new { Recipe = r, FavoriteRecipe = fr.FirstOrDefault() }
+                )
+                .Select(r => new RecipeListingDto
+                {
+                    Id = r.Recipe.Id,
+                    ImageUrl = r.Recipe.ImageUrl,
+                    Title = r.Recipe.Title,
+                    Description = r.Recipe.Description,
+                    IsFavorite = r.FavoriteRecipe != null
+                })
+                .ToListAsync();
+
+            return new PagedResult<RecipeListingDto>(withFavorites, totalRecords);
+        }
 
         var collection = await baseQuery
             .Select(r => new RecipeListingDto

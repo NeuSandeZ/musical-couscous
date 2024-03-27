@@ -6,4 +6,5 @@ public sealed record RecipeQuery
     public int? Page { get; set; }
     public int? PageSize { get; set; }
     public int SkipCount { get; set; }
+    public bool WithFavorites { get; set; }
 }

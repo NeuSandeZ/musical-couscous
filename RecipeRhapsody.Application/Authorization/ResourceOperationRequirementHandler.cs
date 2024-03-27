@@ -1,16 +1,17 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
-using RecipeRhapsody.Domain.Entities;
+using RecipeRhapsody.Domain;
 
 namespace RecipeRhapsody.Application.Authorization;
 
-internal sealed class ResourceOperationRequirementHandler
-    : AuthorizationHandler<ResourceOperationRequirement, Recipe>
+internal sealed class ResourceOperationRequirementHandler<T>
+    : AuthorizationHandler<ResourceOperationRequirement, T>
+    where T : IUserBase
 {
     protected override Task HandleRequirementAsync(
         AuthorizationHandlerContext context,
         ResourceOperationRequirement requirement,
-        Recipe recipe
+        T entity
     )
     {
         if (
@@ -19,8 +20,7 @@ internal sealed class ResourceOperationRequirementHandler
         )
         {
             var userId = context.User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-
-            if (recipe.ApplicationUserId == userId)
+            if (entity.UserId == userId)
             {
                 context.Succeed(requirement);
             }

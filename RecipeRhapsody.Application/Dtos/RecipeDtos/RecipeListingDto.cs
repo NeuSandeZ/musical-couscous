@@ -6,4 +6,5 @@ public readonly record struct RecipeListingDto
     public string? ImageUrl { get; init; }
     public string Title { get; init; }
     public string Description { get; init; }
+    public bool? IsFavorite { get; init; }
 }

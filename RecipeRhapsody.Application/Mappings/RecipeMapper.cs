@@ -6,7 +6,7 @@ namespace RecipeRhapsody.Application.Mappings;
 internal sealed class RecipeMapper : IRecipeMapper
 {
     public Recipe MapToRecipe(RecipeDto recipeDto) =>
-        new Recipe()
+        new()
         {
             ImageUrl = recipeDto.ImageUrl,
             Title = recipeDto.Title,
@@ -28,10 +28,10 @@ internal sealed class RecipeMapper : IRecipeMapper
         };
 
     public RecipeDto MapToRecipeDto(Recipe recipe) =>
-        new RecipeDto()
+        new()
         {
             //Email or username instead of id!
-            CreatedBy = recipe.ApplicationUserId,
+            CreatedBy = recipe.UserId,
             UpdatedOn = recipe.UpdatedOn,
             ImageUrl = recipe.ImageUrl,
             Title = recipe.Title,

@@ -162,7 +162,7 @@ namespace RecipeRhapsody.Application.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -174,11 +174,35 @@ namespace RecipeRhapsody.Application.Migrations
                 {
                     table.PrimaryKey("PK_Recipes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Recipes_AspNetUsers_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
+                        name: "FK_Recipes_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FavoritesRecipes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RecipeId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FavoritesRecipes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FavoritesRecipes_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_FavoritesRecipes_Recipes_RecipeId",
+                        column: x => x.RecipeId,
+                        principalTable: "Recipes",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -283,6 +307,16 @@ namespace RecipeRhapsody.Application.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_FavoritesRecipes_RecipeId",
+                table: "FavoritesRecipes",
+                column: "RecipeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FavoritesRecipes_UserId",
+                table: "FavoritesRecipes",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Ingredients_RecipeId",
                 table: "Ingredients",
                 column: "RecipeId");
@@ -293,9 +327,9 @@ namespace RecipeRhapsody.Application.Migrations
                 column: "RecipeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Recipes_ApplicationUserId",
+                name: "IX_Recipes_UserId",
                 table: "Recipes",
-                column: "ApplicationUserId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Steps_RecipeId",
@@ -320,6 +354,9 @@ namespace RecipeRhapsody.Application.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "FavoritesRecipes");
 
             migrationBuilder.DropTable(
                 name: "Ingredients");

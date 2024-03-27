@@ -10,8 +10,8 @@ internal record class UserContextService(IHttpContextAccessor httpContextAccesso
 
     public ClaimsPrincipal User => _httpContextAccessor.HttpContext?.User;
 
-    public Guid? GetUserId =>
-        User is null
+    public string? GetUserId =>
+        User.Identity.IsAuthenticated is false
             ? null
-            : Guid.Parse(User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier).Value);
+            : User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier).Value;
 }
