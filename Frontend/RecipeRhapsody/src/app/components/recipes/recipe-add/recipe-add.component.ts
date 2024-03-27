@@ -203,6 +203,8 @@ export class RecipeAddComponent implements OnInit, OnDestroy {
         .imageUrl;
     }
 
+    //TODO if imageUrl = null load some default
+
     const recipe: IRecipe = {
       id: this.recipeId,
       imageUrl: imageUrl,

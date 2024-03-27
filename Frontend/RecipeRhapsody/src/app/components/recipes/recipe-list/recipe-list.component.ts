@@ -4,6 +4,7 @@ import { RecipeService } from '../../../Services/recipe.service';
 import { Subscription } from 'rxjs';
 import { LoadingSpinnerComponent } from '../../shared/loading-spinner/loading-spinner.component';
 import { IRecipeListing } from '../../../Models/irecipeListing';
+import { AuthService } from '../../../Services/auth.service';
 @Component({
   selector: 'app-recipe-list',
   standalone: true,
@@ -14,12 +15,11 @@ import { IRecipeListing } from '../../../Models/irecipeListing';
 export class RecipeListComponent implements OnInit, OnDestroy {
   recipes: IRecipeListing[] = [];
   recipeSub!: Subscription;
-  isLoading: boolean = false;
   isError: boolean = false;
   private pageSize: number = 8;
   private totalRecords!: number;
   private skipCount: number = 0;
-  private isFetching: boolean = false;
+  isFetching: boolean = false;
 
   @HostListener('window:scroll', [])
   onScroll(): void {
@@ -33,14 +33,22 @@ export class RecipeListComponent implements OnInit, OnDestroy {
       this.fetchRecipes({
         pageSize: this.pageSize,
         skipCount: this.skipCount,
+        withFavorites: true,
       });
     }
   }
 
-  constructor(private readonly _recipesService: RecipeService) {}
+  constructor(
+    private readonly _recipesService: RecipeService,
+    private readonly _authService: AuthService
+  ) {}
 
   ngOnInit(): void {
-    this.fetchRecipes();
+    if (!!this._authService.user) {
+      this.fetchRecipes({ withFavorites: true });
+    } else {
+      this.fetchRecipes();
+    }
   }
 
   ngOnDestroy(): void {
@@ -51,17 +59,16 @@ export class RecipeListComponent implements OnInit, OnDestroy {
     [key: string]: string | number | boolean;
   }) {
     this.isFetching = true;
-    this.isLoading = true;
     this.recipeSub = this._recipesService.fetchRecipes(queryParams).subscribe({
       next: (result) => {
         this.isError = false;
         this.totalRecords = result.totalRecords;
         this.recipes.push(...result.collection);
         this.skipCount += result.collection.length;
-        this.isLoading = false;
+        this.isFetching = false;
       },
       error: (error) => {
-        this.isLoading = false;
+        this.isFetching = false;
         this.isError = true;
       },
       complete: () => {

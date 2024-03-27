@@ -3,4 +3,5 @@ export interface IRecipeListing {
   imageUrl?: string;
   title: string;
   description: string;
+  isFavorite: boolean;
 }

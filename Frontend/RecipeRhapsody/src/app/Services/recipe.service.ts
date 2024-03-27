@@ -30,7 +30,17 @@ export class RecipeService {
     );
   }
 
-  addToFavourites(recipeId: number) {}
+  addToFavourites(recipeId: number) {
+    return this._httpClient.post(this.baseUrl + '/favorite/' + recipeId, {
+      observe: 'response',
+    });
+  }
+
+  deleteFavorite(recipeId: number) {
+    return this._httpClient.delete(this.baseUrl + '/favorite/' + recipeId, {
+      observe: 'response',
+    });
+  }
 
   deleteRecipe(recipeId: number) {
     return this._httpClient.delete(
