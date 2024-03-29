@@ -54,7 +54,7 @@ export class UserRecipesComponent implements OnInit, OnDestroy {
   }
 
   onDelete(recipeId: number) {
-    const dialogRef = this.dialog.open<string>(DialogWindowComponent, {
+    const dialogRef = this.dialog.open<boolean>(DialogWindowComponent, {
       data: {
         paragraph: 'Are you sure you want to delete?',
         enum: DialogEnum.Deleted,
