@@ -52,7 +52,8 @@ export class RecipeItemComponent implements OnInit, OnDestroy {
     if (!isAuthenticated) {
       const dialogRef = this.dialog.open<boolean>(DialogWindowComponent, {
         data: {
-          paragraph: 'Create account to add to favorites! Take me to register:',
+          paragraph:
+            'Ups you need to register to add favorites! Would you like to create an account? ',
           enum: DialogEnum.Deleted,
         },
       });
@@ -110,6 +111,7 @@ export class RecipeItemComponent implements OnInit, OnDestroy {
         }
       },
       error: (error) => {
+        //TODO open modal with error some error message
         console.log('error :>> ', error);
       },
     });

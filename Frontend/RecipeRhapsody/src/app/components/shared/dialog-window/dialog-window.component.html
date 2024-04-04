@@ -1,9 +1,18 @@
-{{ data.paragraph }}
-
-<hr />
-@if (data.enum == 2) {
-<button (click)="dialogRef.close(true)">Yes</button>
-<button (click)="dialogRef.close(false)">No</button>
-} @else {
-<button (click)="dialogRef.close()">Close</button>
-}
+<div class="container">
+  <div class="cookiesContent">
+    <button class="close" (click)="dialogRef.close()">✖</button>
+    <img [src]="image" alt="cookies-img" />
+    <p>{{ data.paragraph }}</p>
+    <div
+      class="buttons-container"
+      [ngStyle]="{ justifyContent: getButtonPositions() }"
+    >
+      @if (data.enum === 2) {
+      <button class="accept" (click)="dialogRef.close(true)">Yes</button>
+      <button class="accept" (click)="dialogRef.close(false)">No</button>
+      } @else {
+      <button class="accept confirm" (click)="dialogRef.close()">Great!</button>
+      }
+    </div>
+  </div>
+</div>

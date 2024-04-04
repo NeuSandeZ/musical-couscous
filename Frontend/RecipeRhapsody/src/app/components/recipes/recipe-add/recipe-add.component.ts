@@ -203,8 +203,6 @@ export class RecipeAddComponent implements OnInit, OnDestroy {
         .imageUrl;
     }
 
-    //TODO if imageUrl = null load some default
-
     const recipe: IRecipe = {
       id: this.recipeId,
       imageUrl: imageUrl,
@@ -229,13 +227,13 @@ export class RecipeAddComponent implements OnInit, OnDestroy {
       next: (resData) => {
         if (+resData.status === 201) {
           this.handleSuccess(
-            'Successfully created recipe:' + recipe.title,
+            'Successfully created recipe!',
             '/recipes',
             DialogEnum.Created
           );
         } else if (+resData.status === 200) {
           this.handleSuccess(
-            'Successfully updated recipe:' + recipe.title,
+            'Successfully updated recipe!',
             '/account/profile/my-recipes',
             DialogEnum.Updated
           );

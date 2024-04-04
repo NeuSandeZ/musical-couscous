@@ -9,3 +9,8 @@
   display: flex;
   justify-content: center;
 }
+
+.card-image-height {
+  height: 13vw;
+  object-fit: fill;
+}
