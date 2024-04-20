@@ -5,12 +5,21 @@ import { Subscription } from 'rxjs';
 import { LoadingSpinnerComponent } from '../../shared/loading-spinner/loading-spinner.component';
 import { IRecipeListing } from '../../../Models/irecipeListing';
 import { AuthService } from '../../../Services/auth.service';
+import { animate, style, transition, trigger } from '@angular/animations';
 @Component({
   selector: 'app-recipe-list',
   standalone: true,
   templateUrl: './recipe-list.component.html',
   styleUrl: './recipe-list.component.css',
   imports: [RecipeItemComponent, LoadingSpinnerComponent],
+  animations: [
+    trigger('recipeItemAppear', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('500ms ease-out', style({ opacity: 1 })),
+      ]),
+    ]),
+  ],
 })
 export class RecipeListComponent implements OnInit, OnDestroy {
   recipes: IRecipeListing[] = [];
@@ -44,7 +53,8 @@ export class RecipeListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    if (!!this._authService.user) {
+    //TODO this is always true
+    if (this._authService.user) {
       this.fetchRecipes({ withFavorites: true });
     } else {
       this.fetchRecipes();
@@ -58,20 +68,22 @@ export class RecipeListComponent implements OnInit, OnDestroy {
   private fetchRecipes(queryParams?: {
     [key: string]: string | number | boolean;
   }) {
-    this.isFetching = true;
+    const timeOut = setTimeout(() => {
+      this.isFetching = true;
+    }, 150);
     this.recipeSub = this._recipesService.fetchRecipes(queryParams).subscribe({
       next: (result) => {
         this.isError = false;
         this.totalRecords = result.totalRecords;
         this.recipes.push(...result.collection);
         this.skipCount += result.collection.length;
-        this.isFetching = false;
       },
       error: (error) => {
         this.isFetching = false;
         this.isError = true;
       },
       complete: () => {
+        clearTimeout(timeOut);
         this.isFetching = false;
       },
     });
